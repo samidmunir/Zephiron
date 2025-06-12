@@ -13,7 +13,7 @@ const Profile = (props: ProfileProps) => {
 
   if (props.type === "icon") {
     return (
-      <button onClick={() => navigate("/login")}>
+      <button onClick={() => navigate("/login")} className="cursor-pointer">
         <User
           className={`w-6 h-6 ${
             isDark && "hover:text-sky-400"
