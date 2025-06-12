@@ -1,4 +1,5 @@
 import React from "react";
+import Navbar from "../components/Navbar";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -7,7 +8,7 @@ type LayoutProps = {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <main>
-      {/* NAVBAR */}
+      <Navbar />
       <main>{children}</main>
       {/* FOOTER */}
     </main>
