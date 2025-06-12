@@ -28,8 +28,8 @@ const Profile = (props: ProfileProps) => {
         className="p-2 rounded-full flex items-center gap-2"
         aria-label="User"
       >
-        <p>Login</p>
         <User className="w-6 h-6" />
+        <p>Login</p>
       </button>
     );
   }

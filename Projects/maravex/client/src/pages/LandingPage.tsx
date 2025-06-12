@@ -1,7 +1,21 @@
+import Hero from "../components/Hero";
+import LatestArrivals from "../components/LatestArrivals";
+import TrendingCategories from "../components/TrendingCategories";
+import WhyMaraveX from "../components/WhyMaraveX";
+import FeaturedBrands from "../components/FeaturedBrands";
+import NewsletterSignup from "../components/NewsletterSignup";
+import GlobalDelivery from "../components/GlobalDelivery";
+
 const LandingPage = () => {
   return (
-    <main className="w-full h-[100vh] flex justify-center items-center">
-      <h1 className="text-5xl font-bold uppercase">landing page</h1>
+    <main>
+      <Hero />
+      <LatestArrivals />
+      <TrendingCategories />
+      <WhyMaraveX />
+      <FeaturedBrands />
+      <NewsletterSignup />
+      <GlobalDelivery />
     </main>
   );
 };
