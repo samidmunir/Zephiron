@@ -10,7 +10,7 @@ Sami Munir | Rutgers University | sami.munir2001@gmail.com
 
 ## Projects
 
-### maravex
+### maravex - _(MERN stack)_
 
 - MongoDB
 - Express

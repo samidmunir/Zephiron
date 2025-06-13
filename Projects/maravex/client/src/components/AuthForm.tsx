@@ -271,6 +271,7 @@
 
 import { useState } from "react";
 import { useTheme } from "../context/Theme";
+import { toast } from "react-toastify";
 
 type AuthMode = "login" | "register";
 
@@ -286,7 +287,7 @@ const AuthForm = () => {
     password: "",
     confirmPassword: "",
     phone: "",
-    address: "",
+    adminCode: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -294,7 +295,7 @@ const AuthForm = () => {
     setError("");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (mode === "register" && form.password !== form.confirmPassword) {
@@ -303,13 +304,52 @@ const AuthForm = () => {
     }
 
     if (mode === "login") {
-      console.log("Logging in:", {
+      const formData = {
         email: form.email,
         password: form.password,
-      });
+      };
+
+      try {
+        const res = await fetch("http://localhost:3000/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          toast.error("Login failed.");
+          throw new Error(data.message || "Login failed.");
+        }
+        toast.success("Successfully logged in!");
+      } catch (e: any) {
+        toast.error("Login failed.");
+      }
     } else {
-      const { confirmPassword, ...registrationData } = form;
-      console.log("Registering:", registrationData);
+      // const { confirmPassword, ...registrationData } = form;
+      // console.log("Registering:", registrationData);
+      const formData = {
+        name: form.name,
+        phone: form.phone,
+        email: form.email,
+        password: form.confirmPassword,
+        adminCode: form.adminCode,
+      };
+      try {
+        const res = await fetch("http://localhost:3000/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          toast.error("Registration failed.");
+          throw new Error(data.message || "Registration failed.");
+        }
+        toast.success("Account created. Please login!");
+      } catch (e: any) {
+        // alert("ERROR WHILE REGISTERING");
+        toast.error("Registration failed.", e.message);
+      }
     }
   };
 
@@ -351,13 +391,13 @@ const AuthForm = () => {
                 required
                 className={`${inputBase} ${borderColor}`}
               />
-              {/* <input
-                name="address"
-                placeholder="Shipping Address (optional)"
-                value={form.address}
+              <input
+                name="adminCode"
+                placeholder="ADMIN CODE (optional)"
+                value={form.adminCode}
                 onChange={handleChange}
                 className={`${inputBase} ${borderColor}`}
-              /> */}
+              />
             </>
           )}
 

@@ -12,7 +12,6 @@ const userSchema = new mongoose.Schema(
     },
     dob: {
       type: String,
-      required: true,
     },
     email: {
       type: String,
@@ -87,7 +86,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ["admin", "customer"],
-      default: "customer",
+      required: true,
     },
   },
   { timestamps: true }
