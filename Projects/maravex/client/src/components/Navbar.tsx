@@ -184,7 +184,7 @@ const Navbar = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const accentColor = isDark ? "text-sky-400" : "text-blue-600";
-  const isAuthenticated = false;
+  const isAuthenticated = true;
 
   const location = useLocation();
   const navigate = useNavigate();
