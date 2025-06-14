@@ -65,3 +65,86 @@ export const register = async (req, res) => {
     });
   }
 };
+
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid credentials.",
+        error: "User not found.",
+      });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatch) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid credentials.",
+        error: "User not validated.",
+      });
+    }
+
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, {
+      expiresIn: JWT_EXPIRES_IN,
+    });
+
+    return res.status(201).json({
+      token,
+      user: {
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        dob: user.dob,
+        email: user.email,
+        phone: user.phone,
+        billingAddress: user.billingAddress,
+        shippingAddress: user.shippingAddress,
+        isSubscribed: user.isSubscribed,
+        role: user.role,
+        createAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      },
+    });
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ success: false, message: "Login failed.", error: e.message });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const updated = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile updated.",
+      user: {
+        id: updated._id,
+        firstName: updated.firstName,
+        lastName: updated.lastName,
+        dob: updated.dob,
+        email: updated.email,
+        phone: updated.phone,
+        billingAddress: updated.billingAddress,
+        shippingAddress: updated.shippingAddress,
+        isSubscribed: updated.isSubscribed,
+        role: updated.role,
+        createAt: updated.createdAt,
+        updatedAt: updated.updatedAt,
+      },
+    });
+  } catch (e) {
+    return res.status(500).json({
+      success: false,
+      message: "Profile update failed.",
+      error: e.message,
+    });
+  }
+};

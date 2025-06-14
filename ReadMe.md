@@ -15,6 +15,6 @@ Sami Munir | Rutgers University | sami.munir2001@gmail.com
 - MongoDB
 - Express
 - React
-- Node.jss
+- Node.js
 
 ## Leetcode Mastery

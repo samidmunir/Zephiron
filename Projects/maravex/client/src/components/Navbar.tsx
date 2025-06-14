@@ -130,6 +130,7 @@
 
 // export default Navbar;
 
+import { useAuth } from "../context/Auth";
 import { useTheme } from "../context/Theme";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -181,10 +182,11 @@ const navAuthItems = [
 ];
 
 const Navbar = () => {
+  const { user } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const accentColor = isDark ? "text-sky-400" : "text-blue-600";
-  const isAuthenticated = false;
+  const isAuthenticated = user ? true : false;
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -254,7 +256,9 @@ const Navbar = () => {
           {isAuthenticated && (
             <div className="flex items-center gap-2">
               <Cart />
-              <p className="font-semibold">Sami M.</p>
+              <p className="font-semibold">
+                {user?.firstName} {user?.lastName[0]}.
+              </p>
               <Logout type="icon" />
             </div>
           )}

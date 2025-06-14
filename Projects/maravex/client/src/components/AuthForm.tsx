@@ -270,13 +270,17 @@
 // export default AuthForm;
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/Auth";
 import { useTheme } from "../context/Theme";
 import { toast } from "react-toastify";
 
 type AuthMode = "login" | "register";
 
 const AuthForm = () => {
+  const { login } = useAuth();
   const { theme } = useTheme();
+  const navigate = useNavigate();
   const isDark = theme === "dark";
   const [mode, setMode] = useState<AuthMode>("login");
   const [error, setError] = useState("");
@@ -317,16 +321,18 @@ const AuthForm = () => {
         });
         const data = await res.json();
         if (!res.ok) {
-          toast.error("Login failed.");
+          // toast.error("Login failed.");
           throw new Error(data.message || "Login failed.");
         }
         toast.success("Successfully logged in!");
+        login(data.token, data.user);
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1500);
       } catch (e: any) {
         toast.error("Login failed.");
       }
     } else {
-      // const { confirmPassword, ...registrationData } = form;
-      // console.log("Registering:", registrationData);
       const formData = {
         name: form.name,
         phone: form.phone,
@@ -342,10 +348,13 @@ const AuthForm = () => {
         });
         const data = await res.json();
         if (!res.ok) {
-          toast.error("Registration failed.");
+          // toast.error("Registration failed.");
           throw new Error(data.message || "Registration failed.");
         }
         toast.success("Account created. Please login!");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1500);
       } catch (e: any) {
         // alert("ERROR WHILE REGISTERING");
         toast.error("Registration failed.", e.message);

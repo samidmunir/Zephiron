@@ -1,17 +1,19 @@
 import { useTheme } from "../../context/Theme";
 import { LogOut } from "lucide-react";
+import { useAuth } from "../../context/Auth";
 
 interface LogoutProps {
   type: "icon" | "label";
 }
 
 const Logout = (props: LogoutProps) => {
+  const { logout } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
   if (props.type === "icon") {
     return (
-      <button onClick={() => alert("Logging out...")}>
+      <button onClick={logout}>
         <LogOut
           className={`w-6 h-6 ${
             isDark && "hover:text-sky-400"
