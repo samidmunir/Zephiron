@@ -5,12 +5,14 @@ import AuthPage from "./pages/AuthPage";
 import Protected from "./layout/Protected";
 import DashboardPage from "./pages/DashboardPage";
 import EditProfilePage from "./pages/EditProfilePage";
+import CatalogPage from "./pages/CatalogPage";
 
 const App = () => {
   return (
     <Layout>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/catalog" element={<CatalogPage />} />
         <Route path="/login" element={<AuthPage />} />
         <Route
           path="/dashboard"

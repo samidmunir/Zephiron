@@ -298,6 +298,7 @@ const Navbar = () => {
           {!isAuthenticated && <Profile type="label" />}
           {isAuthenticated && (
             <div className="flex items-center gap-2">
+              <Cart />
               <p className="font-semibold">Sami M.</p>
               <Logout type="label" />
             </div>
