@@ -630,6 +630,7 @@ import ProductCard from "../components/ProductCard";
 import { useTheme } from "../context/Theme";
 import { mockProducts } from "../data/mockProducts";
 import { FiFilter } from "react-icons/fi";
+import TrendingCategories from "../components/TrendingCategories";
 
 const CatalogPage = () => {
   const { theme } = useTheme();
@@ -686,189 +687,192 @@ const CatalogPage = () => {
   };
 
   return (
-    <div
-      className={`relative w-full px-4 lg:px-10 py-6 ${
-        theme === "dark" ? "bg-zinc-950 text-white" : "bg-white text-zinc-900"
-      }`}
-    >
-      {/* 🔍 Mobile Filter Toggle */}
-      <div className="lg:hidden flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold">Catalog</h2>
-        <button
-          onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
-          className="flex items-center gap-2 px-4 py-2 border rounded-md"
-        >
-          <FiFilter />
-          Filter
-        </button>
-      </div>
-
-      {/* 🔍 Mobile Filter Drawer */}
-      {mobileFilterOpen && (
-        <div
-          className={`fixed inset-0 z-50 bg-black/40`}
-          onClick={() => setMobileFilterOpen(false)}
-        >
-          <div
-            className={`absolute top-0 right-0 w-4/5 h-full overflow-y-auto p-4 shadow-lg ${
-              theme === "dark"
-                ? "bg-zinc-900 text-white"
-                : "bg-white text-zinc-900"
-            }`}
-            onClick={(e) => e.stopPropagation()}
+    <>
+      <div
+        className={`relative w-full px-4 lg:px-10 py-6 ${
+          theme === "dark" ? "bg-zinc-950 text-white" : "bg-white text-zinc-900"
+        }`}
+      >
+        {/* 🔍 Mobile Filter Toggle */}
+        <div className="lg:hidden flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-semibold">Catalog</h2>
+          <button
+            onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
+            className="flex items-center gap-2 px-4 py-2 border rounded-md"
           >
-            <h2 className="text-xl font-semibold mb-4">Filters</h2>
-            <input
-              type="text"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full mb-4 px-4 py-2 rounded-lg border outline-none bg-transparent border-zinc-300 dark:border-zinc-700"
-            />
-            <label className="block mt-4 text-sm font-medium">Category</label>
-            <select
-              name="category"
-              onChange={handleFilterChange}
-              className="w-full"
-            >
-              <option value="">All</option>
-              <option value="shoes">Shoes</option>
-              <option value="jackets">Jackets</option>
-            </select>
-            <label className="block mt-4 text-sm font-medium">Size</label>
-            <select
-              name="size"
-              onChange={handleFilterChange}
-              className="w-full"
-            >
-              <option value="">All</option>
-              <option value="S">S</option>
-              <option value="M">M</option>
-              <option value="L">L</option>
-            </select>
-            <label className="block mt-4 text-sm font-medium">Color</label>
-            <select
-              name="color"
-              onChange={handleFilterChange}
-              className="w-full"
-            >
-              <option value="">All</option>
-              <option value="black">Black</option>
-              <option value="white">White</option>
-              <option value="blue">Blue</option>
-            </select>
-            <label className="block mt-4 text-sm font-medium">
-              Price Range
-            </label>
-            <select
-              name="priceRange"
-              onChange={handleFilterChange}
-              className="w-full"
-            >
-              <option value="">All</option>
-              <option value="0-50">$0–50</option>
-              <option value="51-100">$51–100</option>
-              <option value="101-200">$101–200</option>
-            </select>
-            <label className="block mt-4 text-sm font-medium">Sort By</label>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="w-full"
-            >
-              <option value="default">Default</option>
-              <option value="price-asc">Price: Low → High</option>
-              <option value="price-desc">Price: High → Low</option>
-              <option value="name">Name</option>
-            </select>
-          </div>
+            <FiFilter />
+            Filter
+          </button>
         </div>
-      )}
 
-      {/* 🧭 Layout */}
-      <div className="flex flex-col lg:flex-row gap-10">
-        {/* 🧭 Desktop Filter Sidebar */}
-        <aside className="hidden lg:block lg:w-1/4 relative">
+        {/* 🔍 Mobile Filter Drawer */}
+        {mobileFilterOpen && (
           <div
-            className={`sticky top-24 rounded-xl p-4 shadow-lg ${
-              theme === "dark" ? "bg-zinc-900" : "bg-gray-100"
-            }`}
+            className={`fixed inset-0 z-50 bg-black/40`}
+            onClick={() => setMobileFilterOpen(false)}
           >
-            <h2 className="text-xl font-semibold mb-4">Filters</h2>
-            <input
-              type="text"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full mb-4 px-4 py-2 rounded-lg border outline-none bg-transparent border-zinc-300 dark:border-zinc-700"
-            />
-            <label className="block mt-4 text-sm font-medium">Category</label>
-            <select
-              name="category"
-              onChange={handleFilterChange}
-              className="w-full"
+            <div
+              className={`absolute top-0 right-0 w-4/5 h-full overflow-y-auto p-4 shadow-lg ${
+                theme === "dark"
+                  ? "bg-zinc-900 text-white"
+                  : "bg-white text-zinc-900"
+              }`}
+              onClick={(e) => e.stopPropagation()}
             >
-              <option value="">All</option>
-              <option value="shoes">Shoes</option>
-              <option value="jackets">Jackets</option>
-            </select>
-            <label className="block mt-4 text-sm font-medium">Size</label>
-            <select
-              name="size"
-              onChange={handleFilterChange}
-              className="w-full"
-            >
-              <option value="">All</option>
-              <option value="S">S</option>
-              <option value="M">M</option>
-              <option value="L">L</option>
-            </select>
-            <label className="block mt-4 text-sm font-medium">Color</label>
-            <select
-              name="color"
-              onChange={handleFilterChange}
-              className="w-full"
-            >
-              <option value="">All</option>
-              <option value="black">Black</option>
-              <option value="white">White</option>
-              <option value="blue">Blue</option>
-            </select>
-            <label className="block mt-4 text-sm font-medium">
-              Price Range
-            </label>
-            <select
-              name="priceRange"
-              onChange={handleFilterChange}
-              className="w-full"
-            >
-              <option value="">All</option>
-              <option value="0-50">$0–50</option>
-              <option value="51-100">$51–100</option>
-              <option value="101-200">$101–200</option>
-            </select>
-            <label className="block mt-4 text-sm font-medium">Sort By</label>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="w-full"
-            >
-              <option value="default">Default</option>
-              <option value="price-asc">Price: Low → High</option>
-              <option value="price-desc">Price: High → Low</option>
-              <option value="name">Name</option>
-            </select>
+              <h2 className="text-xl font-semibold mb-4">Filters</h2>
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full mb-4 px-4 py-2 rounded-lg border outline-none bg-transparent border-zinc-300 dark:border-zinc-700"
+              />
+              <label className="block mt-4 text-sm font-medium">Category</label>
+              <select
+                name="category"
+                onChange={handleFilterChange}
+                className="w-full"
+              >
+                <option value="">All</option>
+                <option value="shoes">Shoes</option>
+                <option value="jackets">Jackets</option>
+              </select>
+              <label className="block mt-4 text-sm font-medium">Size</label>
+              <select
+                name="size"
+                onChange={handleFilterChange}
+                className="w-full"
+              >
+                <option value="">All</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+              </select>
+              <label className="block mt-4 text-sm font-medium">Color</label>
+              <select
+                name="color"
+                onChange={handleFilterChange}
+                className="w-full"
+              >
+                <option value="">All</option>
+                <option value="black">Black</option>
+                <option value="white">White</option>
+                <option value="blue">Blue</option>
+              </select>
+              <label className="block mt-4 text-sm font-medium">
+                Price Range
+              </label>
+              <select
+                name="priceRange"
+                onChange={handleFilterChange}
+                className="w-full"
+              >
+                <option value="">All</option>
+                <option value="0-50">$0–50</option>
+                <option value="51-100">$51–100</option>
+                <option value="101-200">$101–200</option>
+              </select>
+              <label className="block mt-4 text-sm font-medium">Sort By</label>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="w-full"
+              >
+                <option value="default">Default</option>
+                <option value="price-asc">Price: Low → High</option>
+                <option value="price-desc">Price: High → Low</option>
+                <option value="name">Name</option>
+              </select>
+            </div>
           </div>
-        </aside>
+        )}
 
-        {/* 🛍 Product Grid */}
-        <section className="w-full lg:w-3/4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </section>
+        {/* 🧭 Layout */}
+        <div className="flex flex-col lg:flex-row gap-10">
+          {/* 🧭 Desktop Filter Sidebar */}
+          <aside className="hidden lg:block lg:w-1/4 relative">
+            <div
+              className={`sticky top-24 rounded-xl p-4 shadow-lg ${
+                theme === "dark" ? "bg-zinc-900" : "bg-gray-100"
+              }`}
+            >
+              <h2 className="text-xl font-semibold mb-4">Filters</h2>
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full mb-4 px-4 py-2 rounded-lg border outline-none bg-transparent border-zinc-300 dark:border-zinc-700"
+              />
+              <label className="block mt-4 text-sm font-medium">Category</label>
+              <select
+                name="category"
+                onChange={handleFilterChange}
+                className="w-full"
+              >
+                <option value="">All</option>
+                <option value="shoes">Shoes</option>
+                <option value="jackets">Jackets</option>
+              </select>
+              <label className="block mt-4 text-sm font-medium">Size</label>
+              <select
+                name="size"
+                onChange={handleFilterChange}
+                className="w-full"
+              >
+                <option value="">All</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+              </select>
+              <label className="block mt-4 text-sm font-medium">Color</label>
+              <select
+                name="color"
+                onChange={handleFilterChange}
+                className="w-full"
+              >
+                <option value="">All</option>
+                <option value="black">Black</option>
+                <option value="white">White</option>
+                <option value="blue">Blue</option>
+              </select>
+              <label className="block mt-4 text-sm font-medium">
+                Price Range
+              </label>
+              <select
+                name="priceRange"
+                onChange={handleFilterChange}
+                className="w-full"
+              >
+                <option value="">All</option>
+                <option value="0-50">$0–50</option>
+                <option value="51-100">$51–100</option>
+                <option value="101-200">$101–200</option>
+              </select>
+              <label className="block mt-4 text-sm font-medium">Sort By</label>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="w-full"
+              >
+                <option value="default">Default</option>
+                <option value="price-asc">Price: Low → High</option>
+                <option value="price-desc">Price: High → Low</option>
+                <option value="name">Name</option>
+              </select>
+            </div>
+          </aside>
+
+          {/* 🛍 Product Grid */}
+          <section className="w-full lg:w-3/4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+            {filteredProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </section>
+        </div>
       </div>
-    </div>
+      <TrendingCategories />
+    </>
   );
 };
 

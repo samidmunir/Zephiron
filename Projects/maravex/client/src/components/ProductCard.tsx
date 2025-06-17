@@ -23,7 +23,7 @@ type Props = {
 const ProductCard: React.FC<Props> = ({ product }) => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const { cart, addToCart } = useCart();
+  const { cart, addToCart, toggleCart } = useCart();
   const { user } = useAuth();
   const inCart = cart.some((item) => item._id === product._id);
 
@@ -70,7 +70,10 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         </div>
         {user && (
           <button
-            onClick={() => addToCart(product)}
+            onClick={() => {
+              addToCart(product);
+              toggleCart();
+            }}
             className={`mt-3 w-full ${isDark ? "bg-white" : "bg-black"} ${
               isDark ? "text-black" : "text-white"
             } py-2 rounded hover:opacity-90 transition`}
