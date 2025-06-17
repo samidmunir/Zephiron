@@ -13,6 +13,7 @@ type CartContextType = {
   cart: CartItem[];
   addToCart: (product: Product) => void;
   removeFromCart: (id: string) => void;
+  clearCart: () => void;
   updateQuantity: (id: string, quantity: number) => void;
   toggleCart: () => void;
   isCartOpen: boolean;
@@ -56,12 +57,17 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const toggleCart = () => setIsCartOpen((prev) => !prev);
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
     <CartContext.Provider
       value={{
         cart,
         addToCart,
         removeFromCart,
+        clearCart,
         updateQuantity,
         toggleCart,
         isCartOpen,

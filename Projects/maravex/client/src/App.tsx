@@ -6,6 +6,7 @@ import Protected from "./layout/Protected";
 import DashboardPage from "./pages/DashboardPage";
 import EditProfilePage from "./pages/EditProfilePage";
 import CatalogPage from "./pages/CatalogPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
 const App = () => {
   return (
@@ -13,6 +14,14 @@ const App = () => {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/catalog" element={<CatalogPage />} />
+        <Route
+          path="/checkout"
+          element={
+            <Protected>
+              <CheckoutPage />
+            </Protected>
+          }
+        />
         <Route path="/login" element={<AuthPage />} />
         <Route
           path="/dashboard"
