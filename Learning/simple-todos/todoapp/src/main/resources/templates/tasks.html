@@ -9,6 +9,12 @@
       integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
       crossorigin="anonymous"
     />
+    <style>
+      .text-strikethrough {
+        text-decoration: line-through;
+        color: grey;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -35,7 +41,23 @@
             <div
               class="card-body d-flex justify-content-between align-items-center"
             >
-              <span th:text="${task.title}">Task Title</span>
+              <span
+                th:classappend="${task.completed} ? 'text-strikethrough'"
+                th:text="${task.title}"
+                >Task Title</span
+              >
+              <div>
+                <a
+                  th:href="@{/{id}/toggle(id=${task.id})}"
+                  class="btn btn-outline-secondary btn-sm"
+                  >Toggle</a
+                >
+                <a
+                  th:href="@{/{id}/delete(id=${task.id})}"
+                  class="btn btn-outline-danger btn-sm ml-2"
+                  >Delete</a
+                >
+              </div>
             </div>
           </div>
         </th:block>
