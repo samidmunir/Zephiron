@@ -4,6 +4,13 @@ Sami Munir | Rutgers University | sami.munir2001@gmail.com
 
 ## Client
 
+### top-tier-customs - _(MERN stack)_
+
+- MongoDB
+- Express
+- React
+- Node.js
+
 ## Data Structures & Algorithms
 
 ## Learning
