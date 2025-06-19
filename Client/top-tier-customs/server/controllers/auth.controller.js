@@ -36,25 +36,74 @@ export const register = async (req, res) => {
       role,
     });
 
-    return res
-      .status(201)
-      .json({
-        success: true,
-        message: "Registration successful.",
-        user: {
-          id: newUser._id,
-          firstName: newUser.firstName,
-          lastName: newUser.lastName,
-          location: newUser.location,
-          email: newUser.email,
-          role: newUser.role,
-        },
-      });
+    return res.status(201).json({
+      success: true,
+      message: "Registration successful.",
+      user: {
+        id: newUser._id,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        location: newUser.location,
+        email: newUser.email,
+        role: newUser.role,
+      },
+    });
   } catch (e) {
     return res.status(500).json({
       success: false,
       message: "Registration failed.",
       error: e.message,
     });
+  }
+};
+
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Login failed.",
+        error: "User not found.",
+      });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatch) {
+      return res.status(400).json({
+        success: false,
+        message: "Login failed.",
+        error: "Invalid credentials.",
+      });
+    }
+
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, {
+      expiresIn: JWT_EXPIRES_IN,
+    });
+
+    const userData = {
+      id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      dob: user.dob,
+      location: user.location,
+      phone: user.phone,
+      email: user.email,
+      role: user.role,
+      billingAddress: user.billingAddress,
+      shippingAddress: user.shippingAddress,
+      vehicles: user.vehicles,
+      savedProducts: user.savedProducts,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+
+    return res.status(200).json({ token: token, user: user });
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ success: false, message: "Login failed.", error: e.message });
   }
 };
