@@ -149,3 +149,47 @@ export const getUserData = async (req, res) => {
     });
   }
 };
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { password, newPassword } = req.body;
+
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Password reset failed.",
+        error: "Invalid/unknown User ID.",
+      });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatch) {
+      return res.status(400).json({
+        success: false,
+        message: "Password reset failed.",
+        error: "Invalid credentials.",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { password: hashedPassword },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Password reset successful.",
+      user: updatedUser,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      success: false,
+      message: "Reset password failed",
+      error: e.message,
+    });
+  }
+};
