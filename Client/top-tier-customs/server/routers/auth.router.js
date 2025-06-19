@@ -6,6 +6,7 @@ import {
   resetPassword,
   addSavedProduct,
   addSavedVehicle,
+  editUserProfile,
 } from "../controllers/auth.controller.js";
 
 const authRouter = express.Router();
@@ -16,5 +17,6 @@ authRouter.get("/user-data/:id", getUserData);
 authRouter.post("/reset-password/:id", resetPassword);
 authRouter.post("/:id/add-saved-product", addSavedProduct);
 authRouter.post("/:id/add-saved-vehicle", addSavedVehicle);
+authRouter.put("/edit-profile/:id", editUserProfile);
 
 export default authRouter;

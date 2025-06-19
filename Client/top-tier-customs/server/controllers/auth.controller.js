@@ -108,6 +108,28 @@ export const login = async (req, res) => {
   }
 };
 
+export const editUserProfile = async (req, res) => {
+  try {
+    const updated = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: "User profile updated.",
+        userData: updated,
+      });
+  } catch (e) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update user profile.",
+      error: e.message,
+    });
+  }
+};
+
 export const getUserData = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
