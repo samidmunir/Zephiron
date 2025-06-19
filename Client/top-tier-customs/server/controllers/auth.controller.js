@@ -100,10 +100,52 @@ export const login = async (req, res) => {
       updatedAt: user.updatedAt,
     };
 
-    return res.status(200).json({ token: token, user: user });
+    return res.status(200).json({ token: token, user: userData });
   } catch (e) {
     return res
       .status(500)
       .json({ success: false, message: "Login failed.", error: e.message });
+  }
+};
+
+export const getUserData = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Failed to fetch user data.",
+        error: "Invalid/unknown User ID.",
+      });
+    }
+
+    const userData = {
+      id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      dob: user.dob,
+      location: user.location,
+      phone: user.phone,
+      email: user.email,
+      role: user.role,
+      billingAddress: user.billingAddress,
+      shippingAddress: user.shippingAddress,
+      vehicles: user.vehicles,
+      savedProducts: user.savedProducts,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+
+    return res.status(200).json({
+      success: true,
+      message: "User data retrieved.",
+      userData: userData,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch user data.",
+      error: e.message,
+    });
   }
 };
