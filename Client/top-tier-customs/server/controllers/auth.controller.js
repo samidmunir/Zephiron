@@ -193,3 +193,77 @@ export const resetPassword = async (req, res) => {
     });
   }
 };
+
+export const addSavedProduct = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    const { productId } = req.body;
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Unable to save product.",
+        error: "Invalid/unknown User ID.",
+      });
+    }
+
+    const savedProducts = user.savedProducts;
+    savedProducts.push(productId);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { savedProducts: savedProducts },
+      {
+        new: true,
+      }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Product saved successfully.",
+      user: updatedUser,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to save product.",
+      error: e.message,
+    });
+  }
+};
+
+export const addSavedVehicle = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    const { vehicle } = req.body;
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Unable to save vehicle.",
+        error: "Invalid/unknown User ID.",
+      });
+    }
+
+    const savedVehicles = user.vehicles;
+    savedVehicles.push(vehicle);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { vehicles: savedVehicles },
+      {
+        new: true,
+      }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Vehicle saved successfully.",
+      user: updatedUser,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to save vehicle.",
+      error: e.message,
+    });
+  }
+};
