@@ -76,7 +76,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`w-full px-8 py-4 sticky top-0 z-50 backdrop-blur-lg transition-all duration-3000 ${
+      className={`w-full px-8 py-4 sticky top-0 z-50 backdrop-blur-xs transition-all duration-1000 ${
         isDark ? "bg-zinc-950/90 text-zinc-50" : "bg-zinc-50/90 text-zinc-950"
       }`}
     >
@@ -84,19 +84,19 @@ const Navbar = () => {
         {/* LOGO */}
         <div
           onClick={() => navigate("/")}
-          className="flex items-center gap-4 cursor-pointer"
+          className="flex items-center sm:gap-2 lg:gap-4 gap-2 cursor-pointer"
         >
           <img
             src={logo}
             alt="Logo"
-            className={`w-[75px] rounded-full border-3 transition-all duration-3000 ${
+            className={`sm:w-[60px] lg:w-[75px] xl:w-[60px] w-[50px] rounded-full border-3 transition-all duration-1000 ${
               isDark ? "border-rose-500" : "border-sky-500"
             }`}
           />
-          <h1 className="text-4xl font-bold uppercase">
+          <h1 className="sm:text-2xl lg:hidden xl:inline-block xl:text-2xl text-2xl font-bold uppercase">
             Top-Tier{" "}
             <span
-              className={`transition-all duration-3000 ${
+              className={`transition-all duration-1000 ${
                 isDark ? "text-rose-500" : "text-sky-500"
               }`}
             >
@@ -105,13 +105,13 @@ const Navbar = () => {
           </h1>
         </div>
         {/* NAV ITEMS (DESKTOP-NAV) */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-4">
           {navBaseItems.map((navItem) => (
             <div
               onClick={() => navigate(navItem.href)}
               className={`${
                 location.pathname === navItem.href && accentColor
-              } flex items-center gap-2 font-semibold hover:${accentColor} transition-all duration-500 cursor-pointer`}
+              } flex items-center gap-2 font-semibold hover:${accentColor} transition-all duration-1000 cursor-pointer`}
             >
               <p>{navItem.icon}</p>
               <p>{navItem.label}</p>
@@ -122,7 +122,9 @@ const Navbar = () => {
               <div
                 key={navItem.id}
                 onClick={() => navigate(navItem.href)}
-                className={`flex items-center gap-2 hover:${accentColor} transition-all duration-500 cursor-pointer`}
+                className={`${
+                  location.pathname === "/dashboard" && accentColor
+                } flex items-center gap-2 hover:${accentColor} transition-all duration-1000 cursor-pointer`}
               >
                 <p>{navItem.icon}</p>
                 <p>{navItem.label}</p>
@@ -130,12 +132,14 @@ const Navbar = () => {
             ))}
         </div>
         {/* RIGHT SECTION */}
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden lg:flex items-center gap-2">
           <ThemeToggle />
-          {!isAuthenticated && <Profile type="icon" />}
+          {!isAuthenticated && (
+            <Profile onClick={() => setMobileOpen(false)} type="icon" />
+          )}
           {isAuthenticated && (
             <div className="flex items-center gap-2">
-              <Cart />
+              <Cart type="icon" />
               <p className="font-semibold">
                 {user?.firstName} {user?.lastName[0]}.
               </p>
@@ -144,7 +148,7 @@ const Navbar = () => {
           )}
         </div>
         {/* MOBILE TOGGLE */}
-        <div className="md:hidden flex items-center gap-2">
+        <div className="lg:hidden flex items-center gap-2">
           <ThemeToggle />
           <button onClick={() => setMobileOpen((prev) => !prev)}>
             {mobileOpen ? <X size={28} /> : <Menu size={28} />}
@@ -153,7 +157,7 @@ const Navbar = () => {
       </main>
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="flex flex-col gap-4 mt-4 md:hidden">
+        <div className="flex flex-col gap-4 mt-4 lg:hidden">
           {[...navBaseItems, ...(isAuthenticated ? navAuthItems : [])].map(
             (navItem) => (
               <div
@@ -162,7 +166,7 @@ const Navbar = () => {
                   setMobileOpen(false);
                   navigate(navItem.href);
                 }}
-                className={`flex items-center gap-2 font-semibold ${
+                className={`flex items-center gap-2 font-semibold transition-all duration-1000 ${
                   location.pathname === navItem.href && accentColor
                 } ${
                   isDark ? "hover:text-rose-500" : "hover:text-sky-500"
@@ -173,11 +177,13 @@ const Navbar = () => {
               </div>
             )
           )}
-          {!isAuthenticated && <Profile type="label" />}
+          {!isAuthenticated && (
+            <Profile onClick={() => setMobileOpen(false)} type="label" />
+          )}
           {isAuthenticated && (
-            <div className="flex items-center gap-2">
-              <Cart />
-              <p className="font-semibold">Sami M.</p>
+            <div className="flex-col">
+              <Cart type="label" />
+              <p className="font-semibold my-2">Sami M.</p>
               <Logout type="label" />
             </div>
           )}

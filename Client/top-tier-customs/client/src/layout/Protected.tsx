@@ -15,7 +15,7 @@ const Protected = ({ children }: { children: React.ReactElement }) => {
 
   // Safely check for token & user presence
   if (!token || !user || !user.id) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/auth" replace />;
   }
 
   return children;

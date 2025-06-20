@@ -24,11 +24,11 @@ const Logout = (props: LogoutProps) => {
   } else {
     return (
       <button
-        onClick={() => alert("Logging out...")}
-        className="p-2 rounded-full flex items-center gap-2"
+        onClick={logout}
+        className="rounded-full flex items-center gap-2"
         aria-label="Logout"
       >
-        <p>Logout</p>
+        <p className="font-semibold">Logout</p>
         <LogOut className="w-6 h-6" />
       </button>
     );

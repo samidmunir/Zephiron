@@ -1,4 +1,4 @@
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import React, {
   createContext,
@@ -8,11 +8,15 @@ import React, {
   useEffect,
 } from "react";
 
+type Location = {
+  city: String;
+  country: String;
+};
+
 type BillingAddress = {
   name: string;
   address: string;
   city: string;
-  state: string;
   postalCode: string;
   country: string;
 };
@@ -21,7 +25,6 @@ type ShippingAddress = {
   name: string;
   address: string;
   city: string;
-  state: string;
   postalCode: string;
   country: string;
 };
@@ -31,12 +34,14 @@ type User = {
   firstName: string;
   lastName: string;
   dob: string;
-  email: string;
+  location: Location;
   phone: string;
+  email: string;
+  role: string;
   billingAddress: BillingAddress;
   shippingAddress: ShippingAddress;
-  isSubscribed: boolean;
-  role: string;
+  vehicles: [String];
+  savedProducts: [String];
   createdAt: string;
   updatedAt: string;
 };
@@ -100,7 +105,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 
-    // toast.success("Logged out.");
+    toast.success("Logged out.");
   };
 
   return (

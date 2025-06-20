@@ -1,8 +1,17 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/Auth";
+import {
+  Globe,
+  Lock,
+  LockKeyhole,
+  Mail,
+  MapPinPlusInside,
+  ShieldAlert,
+  UserPlus,
+} from "lucide-react";
 import { useTheme } from "../context/Theme";
-// import { toast } from "react-toastify";
+import { useState } from "react";
+import { useAuth } from "../context/Auth";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 type AuthMode = "login" | "register";
 
@@ -11,16 +20,19 @@ const AuthForm = () => {
   const { theme } = useTheme();
   const navigate = useNavigate();
   const isDark = theme === "dark";
+
   const [mode, setMode] = useState<AuthMode>("login");
   const [error, setError] = useState("");
 
   const [form, setForm] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    phone: "",
     adminCode: "",
+    city: "",
+    country: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,25 +62,29 @@ const AuthForm = () => {
         });
         const data = await res.json();
         if (!res.ok) {
-          // toast.error("Login failed.");
           throw new Error(data.message || "Login failed.");
         }
-        // toast.success("Successfully logged in!");
+        toast.success("Logged in!");
         login(data.token, data.user);
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 1500);
-      } catch (e: any) {
-        // toast.error("Login failed.");
+        navigate("/dashboard");
+      } catch (err: any) {
+        alert("Login failed.");
       }
     } else {
+      const location = {
+        city: form.city,
+        country: form.country,
+      };
+
       const formData = {
-        name: form.name,
-        phone: form.phone,
+        firstName: form.firstName,
+        lastName: form.lastName,
+        location: location,
         email: form.email,
         password: form.confirmPassword,
         adminCode: form.adminCode,
       };
+
       try {
         const res = await fetch("http://localhost:3000/api/auth/register", {
           method: "POST",
@@ -77,123 +93,217 @@ const AuthForm = () => {
         });
         const data = await res.json();
         if (!res.ok) {
-          // toast.error("Registration failed.");
+          toast.error("Registration failed.");
           throw new Error(data.message || "Registration failed.");
         }
-        // toast.success("Account created. Please login!");
+        toast.success("Account created. Please login!");
         setTimeout(() => {
-          navigate("/login");
+          navigate("/auth");
         }, 1500);
       } catch (e: any) {
         // alert("ERROR WHILE REGISTERING");
-        // toast.error("Registration failed.", e.message);
+        toast.error("Registration failed.", e.message);
       }
     }
   };
 
-  const inputBase =
-    "w-full px-4 py-3 border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-600";
-  const borderColor = isDark ? "border-zinc-700" : "border-zinc-300";
-  const bgColor = isDark
-    ? "bg-zinc-950 text-white"
-    : "bg-zinc-50 text-zinc-900";
-  const cardBg = isDark ? "bg-zinc-900" : "bg-white";
-  const textSecondary = isDark ? "text-zinc-400" : "text-zinc-500";
-  const textAccent = isDark ? "text-sky-400" : "text-blue-600";
-
   return (
     <section
-      className={`w-full min-h-screen flex items-center justify-center px-4 py-12 ${bgColor}`}
+      className={`w-full min-h-screen transition-all duration-3000 flex items-center justify-center ${
+        isDark ? "bg-zinc-900 text-zinc-100" : "bg-zinc-100 text-zinc-900"
+      }`}
     >
-      <div className={`w-full max-w-md ${cardBg} rounded-xl shadow-lg p-8`}>
-        <h2 className="text-2xl font-bold mb-6 text-center">
+      <div className={`w-full max-w-md rounded-xl shadow-lg px-8 py-16`}>
+        <h2 className="text-4xl font-bold text-center">
           {mode === "login" ? "Welcome Back" : "Create Your Account"}
         </h2>
-
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          {mode === "register" && (
-            <>
-              <input
-                name="name"
-                placeholder="Full Name"
-                value={form.name}
-                onChange={handleChange}
-                required
-                className={`${inputBase} ${borderColor}`}
-              />
-              <input
-                name="phone"
-                placeholder="Phone Number"
-                value={form.phone}
-                onChange={handleChange}
-                required
-                className={`${inputBase} ${borderColor}`}
-              />
-              <input
-                name="adminCode"
-                placeholder="ADMIN CODE (optional)"
-                value={form.adminCode}
-                onChange={handleChange}
-                className={`${inputBase} ${borderColor}`}
-              />
-            </>
+        <form className="my-4" onSubmit={handleSubmit}>
+          {mode === "register" ? (
+            <section className="p-4">
+              <div className="flex">
+                <div className="flex items-center gap-2">
+                  <UserPlus />
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={form.firstName}
+                    onChange={handleChange}
+                    placeholder="First name"
+                    className={`w-full px-2 py-1 rounded-md focus:outline-none focus:ring-2 ${
+                      isDark
+                        ? "ring-rose-500 placeholder:text-zinc-500"
+                        : "ring-sky-500 placeholder:text-zinc-700"
+                    } transition-all duration-3000`}
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <UserPlus />
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={form.lastName}
+                    onChange={handleChange}
+                    placeholder="Last name"
+                    className={`w-full px-2 py-1 rounded-md focus:outline-none focus:ring-2 ${
+                      isDark
+                        ? "ring-rose-500 placeholder:text-zinc-500"
+                        : "ring-sky-500 placeholder:text-zinc-700"
+                    } transition-all duration-3000`}
+                  />
+                </div>
+              </div>
+              <div className="flex my-4">
+                <div className="flex items-center gap-2">
+                  <MapPinPlusInside />
+                  <input
+                    type="text"
+                    name="city"
+                    value={form.city}
+                    onChange={handleChange}
+                    placeholder="City"
+                    className={`w-full px-2 py-1 rounded-md focus:outline-none focus:ring-2 ${
+                      isDark
+                        ? "ring-rose-500 placeholder:text-zinc-500"
+                        : "ring-sky-500 placeholder:text-zinc-700"
+                    } transition-all duration-3000`}
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <Globe />
+                  <input
+                    type="text"
+                    name="country"
+                    value={form.country}
+                    onChange={handleChange}
+                    placeholder="Country"
+                    className={`w-full px-2 py-1 rounded-md focus:outline-none focus:ring-2 ${
+                      isDark
+                        ? "ring-rose-500 placeholder:text-zinc-500"
+                        : "ring-sky-500 placeholder:text-zinc-700"
+                    } transition-all duration-3000`}
+                  />
+                </div>
+              </div>
+              <div className="flex my-4">
+                <div className="flex items-center gap-2">
+                  <Mail />
+                  <input
+                    type="text"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="Email"
+                    className={`w-full px-2 py-1 rounded-md focus:outline-none focus:ring-2 ${
+                      isDark
+                        ? "ring-rose-500 placeholder:text-zinc-500"
+                        : "ring-sky-500 placeholder:text-zinc-700"
+                    } transition-all duration-3000`}
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <ShieldAlert />
+                  <input
+                    type="text"
+                    name="adminCode"
+                    value={form.adminCode}
+                    onChange={handleChange}
+                    placeholder="(OPTIONAL)"
+                    className={`w-full px-2 py-1 rounded-md focus:outline-none focus:ring-2 ${
+                      isDark
+                        ? "ring-rose-500 placeholder:text-zinc-500"
+                        : "ring-sky-500 placeholder:text-zinc-700"
+                    } transition-all duration-3000`}
+                  />
+                </div>
+              </div>
+              <div className="flex my-4">
+                <div className="flex items-center gap-2">
+                  <Lock />
+                  <input
+                    type="password"
+                    name="password"
+                    value={form.password}
+                    onChange={handleChange}
+                    placeholder="Password"
+                    className={`w-full px-2 py-1 rounded-md focus:outline-none focus:ring-2 ${
+                      isDark
+                        ? "ring-rose-500 placeholder:text-zinc-500"
+                        : "ring-sky-500 placeholder:text-zinc-700"
+                    } transition-all duration-3000`}
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <LockKeyhole />
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    value={form.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="Confirm password"
+                    className={`w-full px-2 py-1 rounded-md focus:outline-none focus:ring-2 ${
+                      isDark
+                        ? "ring-rose-500 placeholder:text-zinc-500"
+                        : "ring-sky-500 placeholder:text-zinc-700"
+                    } transition-all duration-3000`}
+                  />
+                </div>
+              </div>
+            </section>
+          ) : (
+            <section className="p-4">
+              <div className="flex items-center gap-2">
+                <Mail />
+                <input
+                  type="text"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder="Email"
+                  className={`w-full px-2 py-1 rounded-md focus:outline-none focus:ring-2 ${
+                    isDark
+                      ? "ring-rose-500 placeholder:text-zinc-500"
+                      : "ring-sky-500 placeholder:text-zinc-700"
+                  } transition-all duration-3000`}
+                />
+              </div>
+              <div className="flex items-center gap-2 my-8">
+                <Lock />
+                <input
+                  type="password"
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  placeholder="Password"
+                  className={`w-full px-2 py-1 rounded-md focus:outline-none focus:ring-2 ${
+                    isDark
+                      ? "ring-rose-500 placeholder:text-zinc-500"
+                      : "ring-sky-500 placeholder:text-zinc-700"
+                  } transition-all duration-3000`}
+                />
+              </div>
+            </section>
           )}
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={form.email}
-            onChange={handleChange}
-            required
-            className={`${inputBase} ${borderColor}`}
-          />
-
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-            required
-            className={`${inputBase} ${borderColor}`}
-          />
-
-          {mode === "register" && (
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              value={form.confirmPassword}
-              onChange={handleChange}
-              required
-              className={`${inputBase} ${
-                form.password !== form.confirmPassword && form.confirmPassword
-                  ? "border-red-500"
-                  : borderColor
-              }`}
-            />
-          )}
-
           {error && (
-            <p className="text-sm text-red-500 font-medium -mt-2">{error}</p>
+            <p className="text-sm text-rose-500 font-medium -mt-2">{error}</p>
           )}
-
           <button
             type="submit"
-            className="w-full py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 transition"
+            className={`w-full py-3 rounded-md font-semibold transition-all duration-3000 ${
+              isDark ? "bg-rose-500 text-zinc-100" : " bg-sky-500 text-zinc-100"
+            }`}
           >
             {mode === "login" ? "Login" : "Register"}
           </button>
         </form>
-
-        <p className={`text-center mt-6 text-sm ${textSecondary}`}>
+        <p className={`text-center mt-6 text-sm`}>
           {mode === "login"
             ? "Don't have an account?"
             : "Already have an account?"}{" "}
           <button
             onClick={() => setMode(mode === "login" ? "register" : "login")}
-            className={`underline ml-1 ${textAccent}`}
+            className={`underline ml-1 ${
+              isDark ? "text-rose-500" : "text-sky-500"
+            } transition-all duration-3000`}
           >
             {mode === "login" ? "Register" : "Login"}
           </button>
