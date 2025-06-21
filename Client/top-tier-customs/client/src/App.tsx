@@ -2,6 +2,7 @@ import Layout from "./layout/Layout";
 import { Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import ProductsPage from "./pages/products/ProductsPage";
+import ProductPage from "./pages/products/ProductPage";
 import AboutPage from "./pages/AboutPage";
 import AuthPage from "./pages/AuthPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -15,6 +16,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/products" element={<ProductsPage />} />
+        <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/admin/products" element={<AdminProductListPage />} />
         <Route path="/admin/products/edit/:id" element={<EditProductPage />} />
         <Route path="/about" element={<AboutPage />} />

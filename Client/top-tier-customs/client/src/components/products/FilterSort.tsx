@@ -23,14 +23,14 @@ const FilterSort: FC<FilterSortProps> = ({
 
   return (
     <aside
-      className={`w-full md:w-64 p-4 border-1 rounded-xl shadow-sm space-y-6 ${
-        isDark ? "bg-zinc-950 border-zinc-200" : "bg-zinc-200 border-zinc-800"
+      className={`p-4 border-2 rounded-md sm:w-full md:w-64 space-y-4 shadow-lg transition-all duration-1000 ${
+        isDark ? "bg-zinc-950 border-rose-500" : "bg-zinc-800 border-sky-500"
       }`}
     >
       <div>
         <h3
           className={`text-lg font-semibold mb-2 ${
-            isDark ? "text-zinc-100" : "text-zinc-900"
+            isDark ? "text-zinc-300" : "text-zinc-100"
           }`}
         >
           Search
@@ -43,28 +43,28 @@ const FilterSort: FC<FilterSortProps> = ({
             onSearch(e.target.value);
           }}
           placeholder="Search products..."
-          className={`w-full p-2 rounded ${
+          className={`w-full px-2 py-2 rounded-md border-1 border-zinc-100 focus:border-zinc-950 focus:outline-none focus:ring-2 ${
             isDark
-              ? "bg-zinc-800 border-zinc-200"
-              : "bg-zinc-200 border-zinc-800"
-          }`}
+              ? "ring-rose-500 placeholder:text-zinc-500"
+              : "ring-sky-500 placeholder:text-zinc-700"
+          } transition-all duration-3000`}
         />
       </div>
       <div>
         <h3
           className={`text-lg font-semibold mb-2 ${
-            isDark ? "text-zinc-100" : "text-zinc-900"
+            isDark ? "text-zinc-300" : "text-zinc-100"
           }`}
         >
           Sort By
         </h3>
         <select
           onChange={(e) => onSort(e.target.value)}
-          className={`w-full p-2 rounded border-1 ${
+          className={`w-full px-2 py-2 rounded-md border-1 border-zinc-100 focus:border-zinc-950 focus:outline-none focus:ring-2 ${
             isDark
-              ? "bg-zinc-800 border-zinc-200"
-              : "bg-zinc-200 border-zinc-800"
-          }`}
+              ? "ring-rose-500 placeholder:text-zinc-500"
+              : "ring-sky-500 placeholder:text-zinc-700"
+          } transition-all duration-3000`}
         >
           <option value="price-asc">Price (Lowest)</option>
           <option value="price-desc">Price (Highest)</option>
@@ -74,7 +74,7 @@ const FilterSort: FC<FilterSortProps> = ({
       <div>
         <h3
           className={`text-lg font-semibold mb-2 ${
-            isDark ? "text-zinc-100" : "text-zinc-900"
+            isDark ? "text-zinc-300" : "text-zinc-100"
           }`}
         >
           Filter by Brand
@@ -85,11 +85,11 @@ const FilterSort: FC<FilterSortProps> = ({
             setBrand(e.target.value);
             onFilterBrand(e.target.value);
           }}
-          className={`w-full p-2 rounded border-1 ${
+          className={`w-full px-2 py-2 rounded-md border-1 border-zinc-100 focus:border-zinc-950 focus:outline-none focus:ring-2 ${
             isDark
-              ? "bg-zinc-800 border-zinc-200"
-              : "bg-zinc-200 border-zinc-800"
-          }`}
+              ? "ring-rose-500 placeholder:text-zinc-500"
+              : "ring-sky-500 placeholder:text-zinc-700"
+          } transition-all duration-3000`}
         >
           <option value="">All Brands</option>
           {availableBrands.map((brand) => (
