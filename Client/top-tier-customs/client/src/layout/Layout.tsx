@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { ToastContainer } from "react-toastify";
 import { useTheme } from "../context/Theme";
+import ScrollBar from "../components/ui/ScrollBar";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -14,6 +15,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <main>
+      <ScrollBar />
       <Navbar />
       <ToastContainer position="top-right" autoClose={3000} theme={theme} />
       <main
