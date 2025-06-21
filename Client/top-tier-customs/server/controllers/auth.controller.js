@@ -261,6 +261,44 @@ export const addSavedProduct = async (req, res) => {
   }
 };
 
+export const deleteSavedProduct = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Unable to delete saved product.",
+        error: "Invalid/unknown User ID.",
+      });
+    }
+
+    const { productId } = req.body;
+    const savedProducts = user.savedProducts.filter(
+      (product) => product !== productId
+    );
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { savedProducts: savedProducts },
+      {
+        new: true,
+      }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Saved product deleted successfully.",
+      user: updatedUser,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to delete saved product.",
+      error: e.message,
+    });
+  }
+};
+
 export const addSavedVehicle = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -293,6 +331,44 @@ export const addSavedVehicle = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Failed to save vehicle.",
+      error: e.message,
+    });
+  }
+};
+
+export const deleteSavedVehicle = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Unable to delete saved vehicle.",
+        error: "Invalid/unknown User ID.",
+      });
+    }
+
+    const { vehicle } = req.body;
+    const savedVehicles = user.vehicles.filter(
+      (savedVehicle) => savedVehicle !== vehicle
+    );
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { vehicles: savedVehicles },
+      {
+        new: true,
+      }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Saved vehicle deleted successfully.",
+      user: updatedUser,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to delete saved vehicle.",
       error: e.message,
     });
   }
