@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
+import Product from "../models/product.model.js";
 
 dotenv.config();
 
@@ -114,13 +115,11 @@ export const editUserProfile = async (req, res) => {
       new: true,
     });
 
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: "User profile updated.",
-        userData: updated,
-      });
+    return res.status(200).json({
+      success: true,
+      message: "User profile updated.",
+      userData: updated,
+    });
   } catch (e) {
     return res.status(500).json({
       success: false,
@@ -219,7 +218,6 @@ export const resetPassword = async (req, res) => {
 export const addSavedProduct = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    const { productId } = req.body;
     if (!user) {
       return res.status(400).json({
         success: false,
@@ -228,8 +226,18 @@ export const addSavedProduct = async (req, res) => {
       });
     }
 
+    const { productId } = req.body;
+    const product = await Product.findById({ _id: productId });
+    if (!product) {
+      return res.status(400).json({
+        success: false,
+        message: "Unable to save product.",
+        error: "Invalid/unknown Product ID.",
+      });
+    }
+
     const savedProducts = user.savedProducts;
-    savedProducts.push(productId);
+    savedProducts.push(product._id);
 
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
