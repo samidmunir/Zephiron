@@ -30,6 +30,7 @@ const productSchema = new mongoose.Schema(
     },
     category: {
       type: String,
+      enum: ["interior", "exterior", "engine"],
       required: true,
     },
     type: {
