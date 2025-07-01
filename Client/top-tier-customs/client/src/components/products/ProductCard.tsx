@@ -46,27 +46,27 @@
 //       day: "numeric",
 //     });
 
-//   const stockBadge = () => {
-//     if (product.quantity === 0) {
-//       return (
-//         <span className="bg-rose-600 text-white text-xs px-2 py-1 rounded font-semibold">
-//           Out of Stock
-//         </span>
-//       );
-//     } else if (product.quantity < 3) {
-//       return (
-//         <span className="bg-yellow-500 text-black text-xs px-2 py-1 rounded font-semibold">
-//           Low Stock
-//         </span>
-//       );
-//     } else {
-//       return (
-//         <span className="bg-emerald-600 text-white text-xs px-2 py-1 rounded font-semibold">
-//           In Stock
-//         </span>
-//       );
-//     }
-//   };
+// const stockBadge = () => {
+//   if (product.quantity === 0) {
+//     return (
+//       <span className="bg-rose-600 text-white text-xs px-2 py-1 rounded font-semibold">
+//         Out of Stock
+//       </span>
+//     );
+//   } else if (product.quantity < 3) {
+//     return (
+//       <span className="bg-yellow-500 text-black text-xs px-2 py-1 rounded font-semibold">
+//         Low Stock
+//       </span>
+//     );
+//   } else {
+//     return (
+//       <span className="bg-emerald-600 text-white text-xs px-2 py-1 rounded font-semibold">
+//         In Stock
+//       </span>
+//     );
+//   }
+// };
 
 // const handleAddToCart = () => {
 //   addToCart({
@@ -91,7 +91,7 @@
 //         <img
 //           src={product.images?.[0] || "/placeholder.jpg"}
 //           alt={product.title}
-//           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+// className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
 //         />
 
 //         {/* Discount badge */}
@@ -150,8 +150,8 @@
 //           )}
 //         </div>
 
-//         {/* Stock Status */}
-//         <div className="mt-1">{stockBadge()}</div>
+// {/* Stock Status */}
+// <div className="mt-1">{stockBadge()}</div>
 
 //         {/* Timestamps */}
 //         <div className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-1">
@@ -221,10 +221,12 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const navigate = useNavigate();
   const { theme } = useTheme();
-  const { user } = useAuth();
-  const { addToCart, openCart } = useCart();
+  const { user, updateUser } = useAuth();
+  const { cart, addToCart, removeFromCart, openCart } = useCart();
   const isAdmin = user?.role === "admin";
   const isDark = theme === "dark";
+
+  const isInCart = cart.some((item) => item.id === product._id);
 
   const [isSaved, setIsSaved] = useState(false);
 
@@ -253,7 +255,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           }
         );
         if (!res.ok) throw new Error("Failed to update");
+        const data = await res.json();
         setIsSaved((prev) => !prev);
+        updateUser({ savedProducts: data.user.savedProducts });
       } catch (e) {
         alert("Something went wrong.");
       }
@@ -268,31 +272,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           }
         );
         if (!res.ok) throw new Error("Failed to update");
+        const data = await res.json();
         setIsSaved((prev) => !prev);
+        updateUser({ savedProducts: data.user.savedProducts });
       } catch (e) {
         alert("Something went wrong.");
       }
     }
-
-    // try {
-    //   const response = await fetch(
-    //     `http://localhost:3000/api/users/saved/${product._id}`,
-    //     {
-    //       method: isSaved ? "DELETE" : "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Authorization: `Bearer ${user.token}`, // adjust if needed
-    //       },
-    //     }
-    //   );
-
-    //   if (!response.ok) throw new Error("Failed to update");
-
-    //   setIsSaved((prev) => !prev);
-    // } catch (err) {
-    //   console.error("Toggle save failed:", err);
-    //   alert("Something went wrong.");
-    // }
   };
 
   const handleAddToCart = () => {
@@ -303,6 +289,28 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       image: product.images[0],
     });
     openCart();
+  };
+
+  const stockBadge = () => {
+    if (product.quantity === 0) {
+      return (
+        <span className="bg-rose-600 text-white text-xs px-2 py-1 rounded font-semibold">
+          Out of Stock
+        </span>
+      );
+    } else if (product.quantity <= 3) {
+      return (
+        <span className="bg-yellow-500 text-black text-xs px-2 py-1 rounded font-semibold">
+          Low Stock
+        </span>
+      );
+    } else {
+      return (
+        <span className="bg-emerald-600 text-white text-xs px-2 py-1 rounded font-semibold">
+          In Stock
+        </span>
+      );
+    }
   };
 
   const finalPrice =
@@ -354,19 +362,27 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <p className="text-sm text-zinc-500 dark:text-zinc-400">
           {product.brand} • {product.category}
         </p>
+        <section className="flex justify-between">
+          <div className="flex-1/3">
+            {/* Installable */}
+            {product.installable && (
+              <p className="inline-block w-max text-xs font-medium bg-indigo-600 text-white px-2 py-1 rounded-md">
+                Installable
+              </p>
+            )}
 
-        {/* Installable */}
-        {product.installable && (
-          <p className="inline-block w-max text-xs font-medium bg-indigo-600 text-white px-2 py-1 rounded-md">
-            Installable
-          </p>
-        )}
-
-        {/* Fits */}
-        <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
-          <strong>Fits:</strong>{" "}
-          <span className="uppercase">{product.fits}</span>
-        </p>
+            {/* Fits */}
+            <p className=" px-1 py-1 my-1 text-xs text-zinc-500 dark:text-zinc-400 truncate">
+              <strong>Fits:</strong>{" "}
+              <span className="uppercase">{product.fits}</span>
+            </p>
+            {/* Stock Status */}
+            <div className="">{stockBadge()}</div>
+          </div>
+          <div className="flex-2/3">
+            <p className="text-sm">{product.description}</p>
+          </div>
+        </section>
 
         {/* Price */}
         <div className="mt-1">
@@ -387,7 +403,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
 
         {/* CTA */}
-        {isAdmin ? (
+        {/* {isAdmin ? (
           <div>
             <button
               onClick={() => navigate(`/admin/products/edit/${product._id}`)}
@@ -410,6 +426,34 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             >
               Add to Cart
             </button>
+          </div>
+        )} */}
+        {!isAdmin && (
+          <div className="flex flex-col gap-2 mt-4">
+            <button
+              onClick={() => navigate(`/products/${product._id}`)}
+              className="w-full py-2 rounded-md font-medium text-sm bg-sky-600 text-white hover:bg-sky-700 transition"
+            >
+              View Details
+            </button>
+            {isInCart ? (
+              <button
+                onClick={() => removeFromCart(product._id)}
+                className="w-full py-2 rounded-md font-medium text-sm bg-rose-600 text-white hover:bg-rose-700 transition"
+              >
+                Remove from Cart
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  handleAddToCart();
+                  openCart();
+                }}
+                className="w-full py-2 rounded-md font-medium text-sm bg-emerald-600 text-white hover:bg-emerald-700 transition"
+              >
+                Add to Cart
+              </button>
+            )}
           </div>
         )}
       </div>

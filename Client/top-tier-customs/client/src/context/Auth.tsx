@@ -49,6 +49,7 @@ type User = {
 interface AuthContextType {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  updateUser: (newData: Partial<User>) => void;
   token: string | null;
   login: (token: string, user: User) => void;
   logout: () => void;
@@ -61,18 +62,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   const storedToken = localStorage.getItem("token");
-  //   const storedUser = localStorage.getItem("user");
-
-  //   if (storedToken && storedUser) {
-  //     setToken(storedToken);
-  //     setUser(JSON.parse(storedUser));
-  //   }
-
-  //   setLoading(false);
-  // }, []);
 
   useEffect(() => {
     const storedUserRaw = localStorage.getItem("user");
@@ -108,9 +97,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     toast.success("Logged out.");
   };
 
+  const updateUser = (newData: Partial<User>) => {
+    if (!user) {
+      return;
+    }
+
+    setUser({ ...user, ...newData });
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, setUser, token, login, logout, loading }}
+      value={{ user, setUser, updateUser, token, login, logout, loading }}
     >
       {children}
     </AuthContext.Provider>

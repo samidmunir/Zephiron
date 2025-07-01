@@ -88,6 +88,7 @@ const ManageProductsPage = () => {
                 <th className="p-2 text-left">Brand</th>
                 <th className="p-2 text-left">Category</th>
                 <th className="p-2 text-left">Fits</th>
+                <th className="p-2 text-left">Quantity</th>
                 <th className="p-2 text-left">Actions</th>
               </tr>
             </thead>

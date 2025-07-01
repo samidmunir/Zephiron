@@ -1,10 +1,13 @@
 import mongoose from "mongoose";
-import Service from "../models/service.model.js";
 
 const bookingSchema = new mongoose.Schema(
   {
     services: {
-      type: [Service],
+      type: [String],
+      required: true,
+    },
+    products: {
+      type: [String],
       required: true,
     },
     customerId: {
@@ -38,9 +41,14 @@ const bookingSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    paymentMethod: {
+      type: String,
+      enum: ["POS", "Stripe", "Credit-Card", "Debit-Card", "PayPal"],
+      required: true,
+    },
     status: {
       type: String,
-      enum: ["pending", "confirmed", "canceled"],
+      enum: ["pending", "confirmed", "canceled", "completed"],
       default: "pending",
     },
   },

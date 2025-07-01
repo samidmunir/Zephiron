@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
-import Product from "../models/product.model.js";
 
 const orderSchema = new mongoose.Schema(
   {
     products: {
-      type: [Product],
+      type: [String],
       required: true,
     },
     customerId: {
@@ -50,13 +49,26 @@ const orderSchema = new mongoose.Schema(
         type: String,
       },
     },
+    paymentMethod: {
+      type: String,
+      enum: ["cash", "card"],
+      required: true,
+    },
     isPaid: {
       type: Boolean,
       default: false,
     },
     status: {
       type: String,
-      enum: ["pending", "confirmed", "shipped", "canceled"],
+      enum: [
+        "pending",
+        "confirmed",
+        "shipped",
+        "canceled",
+        "awaiting-pickup",
+        "picked-up",
+        "delivered",
+      ],
       default: "pending",
     },
   },

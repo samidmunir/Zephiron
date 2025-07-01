@@ -1,6 +1,7 @@
 import { useTheme } from "../context/Theme";
 import logo from "../assets/logo.jpg";
 import {
+  Activity,
   Atom,
   Home,
   Info,
@@ -37,6 +38,12 @@ const navBaseItems = [
     label: "Services",
     href: "/services",
     icon: <Wrench className="w-6 h-6" />,
+  },
+  {
+    id: 5,
+    label: "Bookings",
+    href: "/available-bookings",
+    icon: <Activity className="w-6 h-6" />,
   },
   {
     id: 3,

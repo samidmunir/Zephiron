@@ -205,6 +205,10 @@ const ProductsPage = () => {
               availableBrands={uniqueBrands}
             />
           </div>
+          <p className="sticky top-106 text-center mt-2">
+            <span className="font-semibold">Total products: </span>
+            {products.length}
+          </p>
         </aside>
 
         {/* Product Grid */}

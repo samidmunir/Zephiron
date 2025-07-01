@@ -8,7 +8,6 @@ const serviceSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      required: true,
     },
     price: {
       type: Number,
@@ -20,9 +19,11 @@ const serviceSchema = new mongoose.Schema(
     deposit: {
       type: Number,
     },
+    image: {
+      type: String,
+    },
     available: {
       type: Boolean,
-      required: true,
     },
     category: {
       type: String,

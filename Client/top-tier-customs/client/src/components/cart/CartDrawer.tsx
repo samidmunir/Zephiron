@@ -2,21 +2,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../../context/Cart";
 import { useTheme } from "../../context/Theme";
 import { X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const CartDrawer = () => {
-  const {
-    cart,
-    isOpen,
-    closeCart,
-    removeFromCart,
-    updateQuantity,
-    total,
-    clearCart,
-  } = useCart();
+  const { cart, isOpen, closeCart, removeFromCart, updateQuantity, total } =
+    useCart();
 
   const { theme } = useTheme(); // ✅ Access current theme
 
   const isDark = theme === "dark";
+
+  const navigate = useNavigate();
 
   return (
     <AnimatePresence>
@@ -109,8 +105,11 @@ const CartDrawer = () => {
                   <span>${total.toFixed(2)}</span>
                 </div>
                 <button
+                  onClick={() => {
+                    closeCart();
+                    navigate("/store/checkout");
+                  }}
                   className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 transition"
-                  onClick={clearCart}
                 >
                   Checkout
                 </button>
