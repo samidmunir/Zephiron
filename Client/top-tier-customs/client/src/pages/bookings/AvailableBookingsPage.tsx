@@ -119,7 +119,7 @@ const AvailableBookingsPage = () => {
               >
                 <div>
                   <h1 className="text-2xl text-center font-semibold">
-                    {formatDateToWords(booking.date)}
+                    {booking.date}
                   </h1>
                 </div>
                 <div className="my-4">

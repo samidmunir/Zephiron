@@ -19,8 +19,16 @@ interface Booking {
   products: string[];
   price: number;
   bookingDate: string;
-  bookingStartTime: string;
-  bookingEndTime: string;
+  bookingTime: string;
+  duration: {
+    min: number;
+    max: number;
+  };
+  isPaid: boolean;
+  paymentMethod: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 const ManageBookingsPage = () => {
@@ -28,7 +36,7 @@ const ManageBookingsPage = () => {
   const [availableBookings, setAvailableBookings] = useState<
     AvailableBooking[]
   >([]);
-  const [bookings, setBookings] = useState([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchAvailableBookings = async () => {
@@ -49,11 +57,28 @@ const ManageBookingsPage = () => {
     }
   };
 
+  const fetchBookings = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("http://localhost:3000/api/bookings", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json();
+      setBookings(data.bookings);
+    } catch (e: any) {
+      alert("Error fetching bookings. " + e.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchAvailableBookings();
+    fetchBookings();
   }, []);
 
-  const handleDelete = async (id: string) => {
+  const handleDeleteOpenBooking = async (id: string) => {
     try {
       const res = await fetch(
         `http://localhost:3000/api/admin/available-bookings/${id}/delete`,
@@ -73,11 +98,13 @@ const ManageBookingsPage = () => {
     }
   };
 
+  const handleDeleteBooking = async (id: string) => {};
+
   return (
     <section className="px-4 sm:px-6 lg:px-10 py-8 min-h-[100vh]">
       <div className="mb-8 flex justify-between items-center">
         <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
-          Manage Bookings
+          Manage All Bookings
         </h1>
       </div>
       <div className="mb-8 flex gap-8">
@@ -160,7 +187,7 @@ const ManageBookingsPage = () => {
                       Edit
                     </Link>
                     <button
-                      onClick={() => handleDelete(booking._id)}
+                      onClick={() => handleDeleteOpenBooking(booking._id)}
                       className="inline-block px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded-md text-xs"
                     >
                       Delete
@@ -172,6 +199,91 @@ const ManageBookingsPage = () => {
           </table>
         </div>
       )}
+      <main className="mt-8">
+        <h1 className="text-zinc-100 text-2xl font-semibold mb-8">
+          Manage Customer Bookings
+        </h1>
+        <div className="overflow-x-auto rounded-lg shadow-sm">
+          <table className="min-w-full divide-y divide-zinc-200 dark:divide-zinc-700">
+            <thead className="bg-zinc-100 dark:bg-zinc-800">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">
+                  Booking ID
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">
+                  Date
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">
+                  Start Time
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">
+                  Duration
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">
+                  Is Paid
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">
+                  Payment Method
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">
+                  Status
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">
+                  Created At
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white dark:bg-zinc-900 divide-y divide-zinc-200 dark:divide-zinc-700">
+              {bookings.map((booking) => (
+                <tr key={booking._id}>
+                  <td className="px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100 uppercase">
+                    {booking._id.slice(0, 8)}...
+                  </td>
+                  <td className="px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100 uppercase">
+                    {booking.bookingDate}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100 uppercase">
+                    {booking.bookingTime}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100 uppercase">
+                    {booking.duration.min}-{booking.duration.max} hrs
+                  </td>
+                  <td className="px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100 uppercase">
+                    {booking.isPaid ? "YES" : "NO"}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100 uppercase">
+                    {booking.paymentMethod}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100 uppercase">
+                    {booking.status}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100 uppercase">
+                    {booking.createdAt.substring(0, 10)} |{" "}
+                    {booking.createdAt.substring(11, 16)}
+                  </td>
+                  <td className="px-4 py-3 text-sm space-x-2">
+                    <Link
+                      to={`/admin/bookings/edit/${booking._id}`}
+                      className="inline-block px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-xs"
+                    >
+                      Edit
+                    </Link>
+                    <button
+                      onClick={() => handleDeleteBooking(booking._id)}
+                      className="inline-block px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded-md text-xs"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </main>
     </section>
   );
 };

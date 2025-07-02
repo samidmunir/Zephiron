@@ -1,7 +1,7 @@
 import { useAuth } from "../../context/Auth";
 import { useTheme } from "../../context/Theme";
 import { useCart } from "../../context/Cart";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { BiRightArrow } from "react-icons/bi";
 
@@ -54,9 +54,11 @@ interface Service {
 const BookingPage = () => {
   const { id } = useParams();
   const { user } = useAuth();
-  const { cart, total } = useCart();
+  const { cart, total, clearCart } = useCart();
   const { theme } = useTheme();
   const isDark = theme === "dark";
+
+  const navigate = useNavigate();
 
   const [openBookings, setOpenBookings] = useState<OpenBooking[]>([]);
   const [service, setService] = useState<Service>({
@@ -111,35 +113,35 @@ const BookingPage = () => {
     return bookingUpdatedAtTime;
   };
 
-  function formatDateToWords(isoDate: string) {
-    const date = new Date(isoDate);
+  // function formatDateToWords(isoDate: string) {
+  //   const date = new Date(isoDate);
 
-    const month = new Intl.DateTimeFormat("en-US", { month: "long" }).format(
-      date
-    );
+  //   const month = new Intl.DateTimeFormat("en-US", { month: "long" }).format(
+  //     date
+  //   );
 
-    const day = date.getDate();
-    const year = date.getFullYear();
+  //   const day = date.getDate();
+  //   const year = date.getFullYear();
 
-    // Determine the day suffix
-    const getDaySuffix = (d: number) => {
-      if (d > 3 && d < 21) return "th";
-      switch (d % 10) {
-        case 1:
-          return "st";
-        case 2:
-          return "nd";
-        case 3:
-          return "rd";
-        default:
-          return "th";
-      }
-    };
+  //   // Determine the day suffix
+  //   const getDaySuffix = (d: number) => {
+  //     if (d > 3 && d < 21) return "th";
+  //     switch (d % 10) {
+  //       case 1:
+  //         return "st";
+  //       case 2:
+  //         return "nd";
+  //       case 3:
+  //         return "rd";
+  //       default:
+  //         return "th";
+  //     }
+  //   };
 
-    const suffix = getDaySuffix(day);
+  //   const suffix = getDaySuffix(day);
 
-    return `${month} ${day}${suffix}, ${year}`;
-  }
+  //   return `${month} ${day}${suffix}, ${year}`;
+  // }
 
   const fetchOpenBookings = async () => {
     try {
@@ -222,9 +224,6 @@ const BookingPage = () => {
       services.push(service._id);
       const products: String[] = [];
       cart.map((product) => products.push(product.id));
-      // console.log(services);
-      // console.log(products);
-      // console.log(paymentMethod);
 
       const bookingData = {
         openBookingId: selectedOpenBooking._id,
@@ -240,7 +239,7 @@ const BookingPage = () => {
         },
         paymentMethod: paymentMethod,
       };
-      console.log(bookingData);
+      // console.log(bookingData);
       const method = "POST";
       const headers = { "Content-Type": "application/json" };
       const body = JSON.stringify(bookingData);
@@ -254,6 +253,8 @@ const BookingPage = () => {
       if (!data.success) {
         alert("Failed to book.");
       }
+      clearCart();
+      navigate("/dashboard");
     } catch (e: any) {
       alert("Failed to create booking: " + e.message);
     } finally {

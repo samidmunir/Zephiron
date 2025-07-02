@@ -28,7 +28,7 @@ export const createBooking = async (req, res) => {
 
     const updatedOpenBooking = await OpenBooking.findByIdAndUpdate(
       openBookingId,
-      { isBooked: false },
+      { isBooked: true },
       { new: true }
     );
 
@@ -45,9 +45,39 @@ export const createBooking = async (req, res) => {
   }
 };
 
-export const getBookings = async (req, res) => {};
+export const getBookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find();
 
-export const getBooking = async (req, res) => {};
+    return res.status(200).json({
+      success: true,
+      message: "Successfully fetched bookings.",
+      bookings: bookings,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch bookings.",
+      error: e.message,
+    });
+  }
+};
+
+export const getBooking = async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.id);
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Booking found.", booking: booking });
+  } catch (e) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to find booking.",
+      error: e.message,
+    });
+  }
+};
 
 export const editBooking = async (req, res) => {};
 
