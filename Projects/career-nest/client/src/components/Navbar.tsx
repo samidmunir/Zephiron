@@ -61,7 +61,7 @@ const Navbar = () => {
               isDark ? "text-[#45a8dd]" : "text-[#0e4e87]"
             }`}
           >
-            Career Nest
+            CareerNest
           </h1>
         </div>
         {/* NAV ITEMS (DESKTOP-NAV) */}

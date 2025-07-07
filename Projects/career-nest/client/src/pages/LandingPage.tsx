@@ -1,7 +1,11 @@
+import Hero from "../components/Hero";
+import Header from "../components/Header";
+
 const LandingPage = () => {
   return (
-    <main className="w-full min-h-screen flex items-center justify-center">
-      <h1 className="text-5xl font-semibold">Welcome to Career Nest</h1>
+    <main>
+      <Hero />
+      <Header />
     </main>
   );
 };
