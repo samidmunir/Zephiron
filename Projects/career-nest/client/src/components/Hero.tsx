@@ -4,9 +4,9 @@ import hero from "../assets/hero.jpg";
 const Hero = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const textPrimColor = isDark ? "text-gray-100" : "text-gray-800";
-  const textSecColor = isDark ? "text-gray-300" : "text-gray-600";
-  const accentColor = isDark ? "text-[#46a8de]" : "text-[#0e4e87]";
+  // const textPrimColor = isDark ? "text-gray-100" : "text-gray-800";
+  // const textSecColor = isDark ? "text-gray-300" : "text-gray-600";
+  // const accentColor = isDark ? "text-[#46a8de]" : "text-[#0e4e87]";
 
   return (
     <main
