@@ -1,6 +1,7 @@
 import React from "react";
 import { useTheme } from "../context/Theme";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -20,6 +21,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       >
         {children}
       </section>
+      <Footer />
     </main>
   );
 };

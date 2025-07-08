@@ -1,5 +1,6 @@
 import { Activity, Focus, FileText, NotebookPen, Zap } from "lucide-react";
 import FeatureCard from "./FeatureCard";
+import { useTheme } from "../context/Theme";
 
 const featuresData = [
   {
@@ -12,7 +13,7 @@ const featuresData = [
   },
   {
     id: 1,
-    title: "Gain Clairty",
+    title: "Gain Clarity",
     feature: "Application Insights",
     description:
       "Visual dashboards help you track interview rates, offer ratios, and application trends.",
@@ -44,9 +45,22 @@ const featuresData = [
 ];
 
 const Features = () => {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   return (
-    <main className="w-full p-8">
-      <h1 className="text-4xl text-center font-semibold my-4">Features</h1>
+    <main
+      className={`w-full p-8 transition-all duration-1000 ${
+        isDark ? "bg-gray-800" : "bg-gray-100"
+      }`}
+    >
+      <h1
+        className={`text-4xl text-center font-semibold mb-8 ${
+          isDark ? "text-[#46a8de]" : "text-[#0e4e87]"
+        }`}
+      >
+        Features
+      </h1>
       <section className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
         {featuresData.map((feature) => (
           <FeatureCard

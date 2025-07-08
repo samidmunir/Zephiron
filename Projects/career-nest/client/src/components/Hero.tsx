@@ -16,7 +16,7 @@ const Hero = () => {
     >
       <section className="max-w-full mx-auto flex flex-col items-center">
         <img src={hero} alt="CareerNest Logo" className="w-full" />
-        <div className="absolute sm:left-6 sm:top-48 2xl:left-32 2xl:top-120 transition-all duration-1000">
+        <div className="absolute sm:left-6 sm:top-48 2xl:left-32 2xl:top-120 transition-all duration-1000 z-0">
           <h1
             className={`sm:text-3xl 2xl:text-7xl font-extrabold text-gray-800 leading-tight`}
           >
@@ -24,7 +24,7 @@ const Hero = () => {
             <br /> with <span className="text-[#0e4e87]">CareerNest</span>
           </h1>
           <p
-            className={`text-gray-900 sm:text-lg sm:max-w-xs 2xl:text-3xl 2xl:max-w-2xl my-4`}
+            className={`text-gray-900 font-medium tracking-tight sm:text-lg sm:max-w-xs 2xl:text-3xl 2xl:max-w-2xl my-4`}
           >
             Track your job applications, prepare for inteviews, and gain key
             insights - all from one clean, focused dashboard.

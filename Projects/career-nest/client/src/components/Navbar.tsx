@@ -3,7 +3,8 @@ import logo_light from "../assets/logo_light.png";
 import logo_dark from "../assets/logo_dark.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import ThemeToggle from "./ui/ThemeToggle";
-import { BadgeDollarSign, Info, Users } from "lucide-react";
+import { BadgeDollarSign, Info, Menu, Users, X } from "lucide-react";
+import { useState } from "react";
 
 const Navbar = () => {
   const { theme } = useTheme();
@@ -14,6 +15,8 @@ const Navbar = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const navBaseItems = [
     {
@@ -48,14 +51,19 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={`transition-all duration-1500 ${bgColor}`}>
+    <nav
+      className={`w-full px-6 py-4 sticky top-0 transition-all duration-1500 ${bgColor} z-10`}
+    >
       <main className="flex items-center justify-between">
         {/* LOGO */}
         <div
           onClick={() => navigate("/")}
-          className="flex items-center transition-all duration-1000"
+          className="flex items-center transition-all duration-1000 cursor-pointer"
         >
-          <img src={isDark ? logo_dark : logo_light} className="w-[75px]" />
+          <img
+            src={isDark ? logo_dark : logo_light}
+            className="w-[75px] rounded-full"
+          />
           <h1
             className={`text-4xl font-semibold ${
               isDark ? "text-[#45a8dd]" : "text-[#0e4e87]"
@@ -79,10 +87,35 @@ const Navbar = () => {
           ))}
         </div>
         {/* RIGHT SECTION */}
-        <div>
+        <div className="lg:hidden flex items-center gap-2">
           <ThemeToggle />
+          <button
+            onClick={() => setMobileOpen((prev) => !prev)}
+            className={`${accentColor}`}
+          >
+            {mobileOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
         </div>
       </main>
+      {mobileOpen && (
+        <div className="flex flex-col gap-4 mt-4 lg:hidden z-50">
+          {navBaseItems.map((navItem) => (
+            <div
+              key={navItem.id}
+              onClick={() => {
+                setMobileOpen(false);
+                navigate(navItem.href);
+              }}
+              className={`flex items-center gap-2 font-semibold transition-all duration-1000 ${
+                location.pathname === navItem.href ? accentColor : textPrimColor
+              }`}
+            >
+              <p>{navItem.icon}</p>
+              <p>{navItem.label}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </nav>
   );
 };
