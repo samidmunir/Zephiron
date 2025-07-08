@@ -59,19 +59,19 @@ const PricingCard = (props: PricingCardProps) => {
         </div>
         <div className="flex items-center justify-center gap-4 mt-4">
           <button
-            className={`px-2 py-1 text-xl font-semibold border-2 rounded-md ${
+            className={`px-2 py-1 text-xl font-semibold border-2 rounded-md transition-all duration-1000 ${
               isDark
-                ? "border-[#46a8de] text-[#46a8de]"
-                : "border-[#0e4e87] text-[#0e4e87]"
+                ? "border-[#46a8de] text-[#46a8de] hover:bg-[#46a8de] hover:text-gray-100"
+                : "border-[#0e4e87] text-[#0e4e87] hover:bg-[#0e4e87] hover:text-gray-100"
             }`}
           >
             Get Started
           </button>
           <button
-            className={`px-2 py-1 text-xl font-semibold border-2 rounded-md ${
+            className={`px-2 py-1 text-xl font-semibold border-2 rounded-md transition-all duration-1000 ${
               isDark
-                ? "border-[#46a8de] text-[#46a8de]"
-                : "border-[#0e4e87] text-[#0e4e87]"
+                ? "border-[#46a8de] text-[#46a8de] hover:bg-[#46a8de] hover:text-gray-100"
+                : "border-[#0e4e87] text-[#0e4e87] hover:bg-[#0e4e87] hover:text-gray-100"
             }`}
           >
             Upgrade
