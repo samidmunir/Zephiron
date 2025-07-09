@@ -1,5 +1,6 @@
 import { useTheme } from "../context/Theme";
 import hero from "../assets/hero.jpg";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
   const { theme } = useTheme();
@@ -7,6 +8,8 @@ const Hero = () => {
   // const textPrimColor = isDark ? "text-gray-100" : "text-gray-800";
   // const textSecColor = isDark ? "text-gray-300" : "text-gray-600";
   // const accentColor = isDark ? "text-[#46a8de]" : "text-[#0e4e87]";
+
+  const navigate = useNavigate();
 
   return (
     <main
@@ -31,6 +34,7 @@ const Hero = () => {
           </p>
           <div className="flex items-center gap-4 2xl:text-2xl">
             <button
+              onClick={() => navigate("/auth")}
               className={`border-2 rounded-md border-gray-900 px-2 py-1 font-semibold hover:bg-gray-900 hover:text-gray-100 transition-all duration-1000`}
             >
               Get Started

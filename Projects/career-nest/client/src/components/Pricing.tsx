@@ -66,7 +66,7 @@ const Pricing = () => {
       >
         Simple pricing, built for every job seeker
       </h2>
-      <section className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+      <section className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
         {planData.map((plan) => (
           <PricingCard
             key={plan.id}

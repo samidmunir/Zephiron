@@ -1,4 +1,4 @@
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import React, {
   createContext,
@@ -8,42 +8,42 @@ import React, {
   useEffect,
 } from "react";
 
-type Location = {
-  city: String;
-  country: String;
-};
+// type Location = {
+//   city: String;
+//   country: String;
+// };
 
-type BillingAddress = {
-  name: string;
-  address: string;
-  city: string;
-  postalCode: string;
-  country: string;
-};
+// type BillingAddress = {
+//   name: string;
+//   address: string;
+//   city: string;
+//   postalCode: string;
+//   country: string;
+// };
 
-type ShippingAddress = {
-  name: string;
-  address: string;
-  city: string;
-  postalCode: string;
-  country: string;
-};
+// type ShippingAddress = {
+//   name: string;
+//   address: string;
+//   city: string;
+//   postalCode: string;
+//   country: string;
+// };
 
 type User = {
-  id: string;
+  _id: string;
   firstName: string;
   lastName: string;
-  dob: string;
-  location: Location;
-  phone: string;
+  // dob: string;
+  // location: Location;
+  // phone: string;
   email: string;
   role: string;
-  billingAddress: BillingAddress;
-  shippingAddress: ShippingAddress;
-  vehicles: [String];
-  savedProducts: [String];
-  createdAt: string;
-  updatedAt: string;
+  // billingAddress: BillingAddress;
+  // shippingAddress: ShippingAddress;
+  // vehicles: [String];
+  // savedProducts: [String];
+  // createdAt: string;
+  // updatedAt: string;
 };
 
 interface AuthContextType {
@@ -94,7 +94,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 
-    // toast.success("Logged out.");
+    toast.success("Logged out.");
   };
 
   const updateUser = (newData: Partial<User>) => {

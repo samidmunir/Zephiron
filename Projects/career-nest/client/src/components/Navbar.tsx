@@ -5,8 +5,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ThemeToggle from "./ui/ThemeToggle";
 import { BadgeDollarSign, Info, Menu, Users, X } from "lucide-react";
 import { useState } from "react";
+import Profile from "./ui/Profile";
+import { useAuth } from "../context/Auth";
+import Logout from "./ui/Logout";
 
 const Navbar = () => {
+  const { user } = useAuth();
+  const isAuthenticated = user === null ? false : true;
+
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const bgColor = isDark ? "bg-[#19232a]" : "bg-[#f2f2f2]";
@@ -89,6 +95,16 @@ const Navbar = () => {
         {/* RIGHT SECTION */}
         <div className="lg:hidden flex items-center gap-2">
           <ThemeToggle />
+          {isAuthenticated ? (
+            <div className="flex items-center gap-2">
+              <p className="font-semibold text-[#0e4e87]">
+                {user?.firstName} {user?.lastName[0]}.
+              </p>
+              <Logout type="icon" />
+            </div>
+          ) : (
+            <Profile type="icon" />
+          )}
           <button
             onClick={() => setMobileOpen((prev) => !prev)}
             className={`${accentColor}`}
