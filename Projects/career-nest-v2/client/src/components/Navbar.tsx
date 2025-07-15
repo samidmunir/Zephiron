@@ -48,9 +48,14 @@ const Navbar = () => {
         </Link>
       </div>
 
+      {/* <div>
+        <p className="text-sm font-semibold">{user?.email}</p>
+      </div> */}
+
       <div className="flex items-center gap-6">
         {user ? (
           <div className="flex items-center">
+            <p className="text-sm font-semibold">{user?.email}</p>
             <button onClick={toggleTheme} className="px-3 py-1 rounded">
               {isDark ? (
                 <Sun className="w-6 h-6 text-amber-500" />
