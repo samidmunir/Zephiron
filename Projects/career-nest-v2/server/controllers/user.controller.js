@@ -45,3 +45,32 @@ export const deleteUserProfile = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const resetPassword = async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ message: "Missing required fields." });
+  }
+
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) return res.status(404).json({ message: "User not found." });
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res
+        .status(401)
+        .json({ message: "Current password is incorrect." });
+    }
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    user.password = hashed;
+    await user.save();
+
+    res.status(200).json({ message: "Password updated successfully." });
+  } catch (err) {
+    console.error("Password reset error:", err);
+    res.status(500).json({ message: "Server error. Please try again later." });
+  }
+};

@@ -1,32 +1,31 @@
-// const SecuritySection = () => {
-//   return (
-//     <div className="max-w-md">
-//       <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-//         Security Settings
-//       </h3>
-//       <p className="text-gray-600 dark:text-gray-300 mb-4">
-//         Reset your password or enable extra security features here.
-//       </p>
-//       <input
-//         type="password"
-//         placeholder="New Password"
-//         className="input mb-4"
-//       />
-//       <input
-//         type="password"
-//         placeholder="Confirm Password"
-//         className="input mb-4"
-//       />
-//       <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-//         Update Password
-//       </button>
-//     </div>
-//   );
-// };
-
-// export default SecuritySection;
+import { useState } from "react";
+import { resetPassword } from "../../api/userApi";
 
 const SecuritySection = () => {
+  const [form, setForm] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await resetPassword({
+        currentPassword: form.oldPassword,
+        newPassword: form.confirmPassword,
+      });
+    } catch (e: any) {
+      alert("Error resetting password.");
+      console.error("Error updating password:", e.message);
+    }
+  };
+
   return (
     <div className="w-full px-4 py-6 max-w-xl mx-auto space-y-6">
       <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
@@ -44,6 +43,9 @@ const SecuritySection = () => {
           <input
             type="password"
             id="oldPassword"
+            name="oldPassword"
+            onChange={handleChange}
+            value={form.oldPassword}
             placeholder="••••••••"
             className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white"
           />
@@ -59,6 +61,9 @@ const SecuritySection = () => {
           <input
             type="password"
             id="newPassword"
+            name="newPassword"
+            onChange={handleChange}
+            value={form.newPassword}
             placeholder="••••••••"
             className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white"
           />
@@ -74,13 +79,19 @@ const SecuritySection = () => {
           <input
             type="password"
             id="confirmPassword"
+            name="confirmPassword"
+            value={form.confirmPassword}
+            onChange={handleChange}
             placeholder="••••••••"
             className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white"
           />
         </div>
 
         <div className="pt-2">
-          <button className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">
+          <button
+            onClick={handleSubmit}
+            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+          >
             Update Password
           </button>
         </div>

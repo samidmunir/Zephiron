@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import hero from "../assets/hero.png";
 
 const features = [
   {
@@ -177,7 +178,7 @@ export default function Landing() {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <img
-            src="https://illustrations.popsy.co/gray/work-from-home.svg"
+            src={hero}
             alt="CareerNest Illustration"
             className="w-full max-w-md mx-auto"
           />

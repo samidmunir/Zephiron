@@ -9,3 +9,5 @@ const API = axios.create({
 
 export const fetchUser = () => API.get("/user/me");
 export const updateUser = (data: any) => API.put("/user/me", data);
+export const resetPassword = (data: any) =>
+  API.put("/user/me/reset-password", data);
