@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
+import { updateUser } from "../../../api/userApi";
 
 type Education = {
   institution: string;
@@ -18,7 +19,7 @@ const emptyEducation: Education = {
 };
 
 const EducationEditor = () => {
-  const { user } = useAuth();
+  const { user, refreshUser } = useAuth();
   const [educationList, setEducationList] = useState<Education[]>(
     user?.education || []
   );
@@ -51,6 +52,17 @@ const EducationEditor = () => {
     const updated = [...educationList];
     updated.splice(index, 1);
     setEducationList(updated);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await updateUser({
+        education: educationList,
+      });
+      refreshUser();
+    } catch (e: any) {
+      alert("Error saving experiences: " + e.message);
+    }
   };
 
   return (
@@ -146,9 +158,7 @@ const EducationEditor = () => {
 
       <div className="pt-2 text-right">
         <button
-          onClick={() =>
-            console.log("SEND EDUCATION TO BACKEND:", educationList)
-          }
+          onClick={handleSubmit}
           className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
         >
           Save All Education

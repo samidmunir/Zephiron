@@ -44,7 +44,7 @@ const SubscriptionSettings = () => {
       <div className="mb-4">
         <p className="text-lg font-semibold">{current.label}</p>
         <ul className="list-disc list-inside mt-2 text-sm">
-          {current.features.map((f, i) => (
+          {current.features.map((f: any, i: any) => (
             <li key={i}>{f}</li>
           ))}
         </ul>

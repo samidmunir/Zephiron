@@ -36,6 +36,21 @@ const SecuritySection = () => {
       <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl shadow p-5 space-y-5">
         <div className="space-y-1">
           <label
+            htmlFor="oldPassword"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
+            Current Password
+          </label>
+          <input
+            type="password"
+            id="oldPassword"
+            placeholder="••••••••"
+            className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white"
+          />
+        </div>
+
+        <div className="space-y-1">
+          <label
             htmlFor="newPassword"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >

@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import User from "../models/User.js";
+import User from "../models/User.model.js";
 
 dotenv.config();
 
@@ -102,6 +102,8 @@ export const login = async (req, res) => {
       role: user.role,
       bio: user.bio,
       location: user.location,
+      experience: user.experience,
+      education: user.education,
       avatar: user.avatar,
       subscription: user.subscription,
       subscriptionActiveUntil: user.subscriptionActiveUntil,

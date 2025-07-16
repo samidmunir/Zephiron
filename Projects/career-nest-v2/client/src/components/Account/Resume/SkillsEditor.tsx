@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
+import { fetchUser, updateUser } from "../../../api/userApi";
 
 const SkillsEditor = () => {
-  const { user } = useAuth();
+  const { user, refreshUser } = useAuth();
 
   const [skills, setSkills] = useState<string[]>(user?.skills || []);
   const [input, setInput] = useState("");
@@ -23,6 +24,35 @@ const SkillsEditor = () => {
     if (e.key === "Enter") {
       e.preventDefault();
       addSkill();
+    }
+  };
+
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const res = await fetchUser();
+        const user = res.data;
+        setSkills(user.skills);
+      } catch (err) {
+        console.error("Failed to load user:", err);
+      }
+    };
+    loadUser();
+  }, []);
+
+  const handleSubmit = async () => {
+    try {
+      // setLoading(true);
+      // const locationSplit = form.location.split(", ");
+      await updateUser({
+        skills,
+      });
+      refreshUser();
+      // setSuccess(true);
+    } catch (err) {
+      console.error("Failed to update:", err);
+    } finally {
+      // setLoading(false);
     }
   };
 
@@ -74,7 +104,7 @@ const SkillsEditor = () => {
 
       <div className="pt-4 text-right">
         <button
-          onClick={() => console.log("SEND TO BACKEND:", skills)}
+          onClick={handleSubmit}
           className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
         >
           Save Skills

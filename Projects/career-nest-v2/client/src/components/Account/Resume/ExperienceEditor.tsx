@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
+import { updateUser } from "../../../api/userApi";
 
 type Experience = {
   id?: string;
@@ -21,7 +22,7 @@ const emptyExperience: Experience = {
 };
 
 const ExperienceEditor = () => {
-  const { user } = useAuth();
+  const { user, refreshUser } = useAuth();
   const [experienceList, setExperienceList] = useState<Experience[]>(
     user?.experience || []
   );
@@ -58,6 +59,17 @@ const ExperienceEditor = () => {
     const updated = [...experienceList];
     updated.splice(index, 1);
     setExperienceList(updated);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await updateUser({
+        experience: experienceList,
+      });
+      refreshUser();
+    } catch (e: any) {
+      alert("Error saving experiences: " + e.message);
+    }
   };
 
   return (
@@ -156,9 +168,7 @@ const ExperienceEditor = () => {
 
       <div className="pt-2 text-right">
         <button
-          onClick={() =>
-            console.log("SEND EXPERIENCE TO BACKEND:", experienceList)
-          }
+          onClick={handleSubmit}
           className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
         >
           Save All Experience
