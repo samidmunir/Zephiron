@@ -41,8 +41,12 @@ interface User {
   skills: string[];
   experience: Experience[];
   education: Education[];
-  subscription: string;
-  subscriptionActiveUntil: string;
+  subscription: {
+    tier: string;
+    expiresAt: Date;
+    stripeCustomerId: string;
+    isAutoRenew: boolean;
+  };
 }
 
 interface AuthContextType {

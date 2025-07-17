@@ -66,11 +66,15 @@ const userSchema = new mongoose.Schema(
       portfolio: { type: String },
     },
     subscription: {
-      type: String,
-      enum: ["FREE", "BASIC", "PRO"],
-      default: "FREE",
+      tier: {
+        type: String,
+        enum: ["FREE", "BASIC", "PRO"],
+        default: "FREE",
+      },
+      expiresAt: Date,
+      stripeCustomerId: String,
+      isAutoRenew: Boolean,
     },
-    subscriptionActiveUntil: Date,
   },
   { timestamps: true }
 );

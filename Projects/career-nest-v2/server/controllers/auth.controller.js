@@ -106,7 +106,6 @@ export const login = async (req, res) => {
       education: user.education,
       avatar: user.avatar,
       subscription: user.subscription,
-      subscriptionActiveUntil: user.subscriptionActiveUntil,
     };
 
     return res.status(200).json({
