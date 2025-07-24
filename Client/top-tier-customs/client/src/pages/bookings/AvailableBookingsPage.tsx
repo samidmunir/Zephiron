@@ -107,7 +107,7 @@ const AvailableBookingsPage = () => {
           Today is {formatDateToWords(todayISO)}
         </p>
       </div>
-      <section className="p-8 w-full min-h-screen bg-zinc-950 rounded-md flex justify-between gap-8 flex-wrap">
+      <section className="p-8 w-full min-h-screen bg-zinc-950 rounded-md flex justify-between flex-wrap">
         {bookings.map((booking) => {
           if (booking.isActive) {
             return (
