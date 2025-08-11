@@ -102,6 +102,7 @@ const ProfileSection = () => {
     const loadUser = async () => {
       try {
         const res = await fetchUser();
+        console.log("loadUser -> res:", res);
         const user = res.data;
         setForm({
           firstName: user.firstName || "",
