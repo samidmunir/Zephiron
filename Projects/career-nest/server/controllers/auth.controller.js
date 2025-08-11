@@ -115,3 +115,40 @@ export const signup = async (req, res) => {
     });
   }
 };
+
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+    if (user && (await user.comparePassword(password))) {
+      const { accessToken, refreshToken } = generateTokens(user._id);
+
+      await storeRefreshToken(user._id, refreshToken);
+
+      setCookies(res, accessToken, refreshToken);
+
+      return res.status(200).json({
+        success: true,
+        message: "Login successful.",
+        data: {
+          _id: user._id,
+          name: `${user.firstName} ${user.lastName}`,
+          email: user.email,
+          role: user.role,
+        },
+      });
+    } else {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid email or password." });
+    }
+  } catch (error) {
+    console.log("Error in login() controller:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+      error: error.message,
+    });
+  }
+};
