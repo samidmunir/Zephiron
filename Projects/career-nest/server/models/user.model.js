@@ -129,9 +129,9 @@ const userSchema = new mongoose.Schema(
         enum: ["FREE", "BASIC", "PRO"],
         default: "FREE",
       },
-      expiresAt: String,
-      stripeCustomerId: String,
-      isAutoRenew: Boolean,
+      expiresAt: { type: String },
+      stripeCustomerId: { type: String },
+      isAutoRenew: { type: Boolean },
     },
   },
   { timestamps: true }

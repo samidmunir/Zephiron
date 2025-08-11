@@ -225,4 +225,21 @@ export const refreshToken = async (req, res) => {
   }
 };
 
-export const getProfile = async (req, res) => {};
+export const getProfile = async (req, res) => {
+  try {
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: "User profile data fetched successfully.",
+        data: req.user,
+      });
+  } catch (error) {
+    console.log("Error in getProfile() controller:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+      error: error.message,
+    });
+  }
+};
