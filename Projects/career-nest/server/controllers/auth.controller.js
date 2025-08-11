@@ -180,6 +180,49 @@ export const logout = async (req, res) => {
   }
 };
 
-export const refreshToken = async (req, res) => {};
+export const refreshToken = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) {
+      return res
+        .status(401)
+        .json({ success: false, message: "No refresh token provided." });
+    }
+
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+    const storedToken = await redis.get(`refresh_token:${decoded.userID}`);
+    if (storedToken !== refreshToken) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid refresh token." });
+    }
+
+    const accessToken = jwt.sign(
+      { userID: decoded.userID },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" }
+    );
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 15 * 60 * 1000,
+    });
+
+    return res.json({
+      success: true,
+      message: "Token refreshed successfully.",
+    });
+  } catch (error) {
+    console.log("Error in refreshToken() controller:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+      error: error.message,
+    });
+  }
+};
 
 export const getProfile = async (req, res) => {};
