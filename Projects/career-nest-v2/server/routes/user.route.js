@@ -9,7 +9,7 @@ import { verifyToken } from "../middlewares/auth.middleware.js";
 
 const userRouter = express.Router();
 
-userRouter.get("/me", getUserProfile);
+userRouter.get("/me", verifyToken, getUserProfile);
 userRouter.put("/me", updateUserProfile);
 userRouter.delete("/me", deleteUserProfile);
 userRouter.put("/me/reset-password", resetPassword);
