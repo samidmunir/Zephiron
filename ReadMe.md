@@ -17,13 +17,6 @@ Sami Munir | Rutgers University | sami.munir2001@gmail.com
 
 ## Projects
 
-### maravex - _(MERN stack)_
-
-- MongoDB
-- Express
-- React
-- Node.js
-
 ### career-nest - _(MERN stack)_
 
 - MongoDB
