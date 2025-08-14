@@ -71,7 +71,7 @@ const Login = () => {
               value={formData.email}
               onChange={handleChange}
               className={`border-2 rounded-md shadow-md px-2 py-1 w-[200px] placeholder:font-medium placeholder:text-gray-500 outline-none ${
-                isDark ? "border-gray-100" : "border-gray-900"
+                isDark ? "border-gray-100 text-gray-100" : "border-gray-900"
               }`}
             />
           </div>
@@ -91,7 +91,7 @@ const Login = () => {
               value={formData.password}
               onChange={handleChange}
               className={`border-2 rounded-md shadow-md px-2 py-1 w-[200px] placeholder:font-medium placeholder:text-gray-500 outline-none ${
-                isDark ? "border-gray-100" : "border-gray-900"
+                isDark ? "border-gray-100 text-gray-100" : "border-gray-900"
               }`}
             />
           </div>
