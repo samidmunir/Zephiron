@@ -26,21 +26,20 @@ export const getUserApplications = async (req, res) => {
 export const getApplication = async (req, res) => {
   try {
     const applicationID = req.params.id;
+    console.log("applicationID:", applicationID);
 
-    const application = await Application.findById(applicationID);
+    const application = await Application.findById({ _id: applicationID });
     if (!application) {
       return res
         .status(404)
         .json({ success: false, message: "Application not found." });
     }
 
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: "Application fetched successfully.",
-        data: application,
-      });
+    return res.status(200).json({
+      success: true,
+      message: "Application fetched successfully.",
+      data: application,
+    });
   } catch (error) {
     console.log("Error in getApplication() controller:", error);
     return res.status(500).json({
@@ -53,31 +52,57 @@ export const getApplication = async (req, res) => {
 
 export const track = async (req, res) => {
   try {
-    const { title, company, salary, url, category, position } = req.body;
+    const {
+      title,
+      company,
+      workType,
+      location,
+      salary,
+      description,
+      notes,
+      requiredSkills,
+      url,
+      category,
+      position,
+      status,
+    } = req.body;
 
     const user = req.user;
+
+    const applicationURL = url;
+    // console.log("applicationURL:", applicationURL);
 
     const application = await Application.create({
       userID: user._id,
       title,
       company,
+      workType,
+      location,
       salary,
-      applicationURL: url,
+      description,
+      notes,
+      requiredSkills,
+      applicationURL,
       category,
       position,
+      status,
     });
 
     return res.status(200).json({
       success: true,
       message: "Application successfully tracked.",
       data: {
-        id: application._id,
+        _id: application._id,
         title: application.title,
         company: application.company,
         salary: application.salary,
-        url: application.url,
+        description: application.description,
+        notes: application.notes,
+        requiredSkills: application.requiredSkills,
+        url: application.applicationURL,
         category: application.category,
         position: application.position,
+        status: application.status,
       },
       user: user,
     });
