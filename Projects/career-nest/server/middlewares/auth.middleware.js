@@ -10,7 +10,7 @@ export const protectRoute = async (req, res, next) => {
     if (!accessToken) {
       return res.status(401).json({
         success: false,
-        message: "Unauthorized - No access token provided.",
+        message: "MDW_Unauthorized - No access token provided.",
       });
     }
 
@@ -18,29 +18,29 @@ export const protectRoute = async (req, res, next) => {
       const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
       const user = await User.findById(decoded.userID).select("-password");
       if (!user) {
-        return res
-          .status(401)
-          .json({ success: false, message: "User not found." });
+        return res.status(401).json({
+          success: false,
+          message: "MDW_Unauthorized - User not found.",
+        });
       }
 
       req.user = user;
       next();
     } catch (error) {
       if (error.name === "TokenExpiredError") {
+        console.log("Error in protectRoute() middleware:", error);
         return res.status(401).json({
           success: false,
-          message: "Unauthorized - Access token expired.",
+          message: "MDW_Unauthorized - Access token expired.",
         });
       }
       throw error;
     }
   } catch (error) {
     console.log("Error in protectRoute() middleware:", error);
-    return res
-      .status(401)
-      .json({
-        success: false,
-        message: "Unauthorized - Invalid access token.",
-      });
+    return res.status(401).json({
+      success: false,
+      message: "MDW_Unauthorized - Invalid access token.",
+    });
   }
 };

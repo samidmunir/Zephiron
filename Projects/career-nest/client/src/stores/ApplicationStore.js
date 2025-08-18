@@ -13,12 +13,12 @@ export const useApplicationStore = create((set, get) => ({
 
     try {
       const res = await axios.get(`/applications/user/${userID}`);
-      const dbApplications = res.data.data;
+      const dbApplications = res.data.applications;
       set({ userApplications: dbApplications, loading: false });
       return {
         success: res.data.success,
         message: res.data.message,
-        data: res.data.data,
+        data: res.data.applications,
       };
     } catch (error) {
       set({ loading: false });
@@ -28,10 +28,11 @@ export const useApplicationStore = create((set, get) => ({
   },
 
   getApplication: async (id) => {
+    set({ loading: true });
     const res = await axios.get(`/applications/${id}`);
-    const doc = res.data?.data ?? res.data; // match your controller's shape
+    const doc = res.data.application;
     console.log("doc:", doc);
-    set({ fetchedApplication: doc });
+    set({ fetchedApplication: doc, loading: false });
     return doc; // <-- critical so the component can set state immediately
   },
 
@@ -67,7 +68,7 @@ export const useApplicationStore = create((set, get) => ({
         status,
       });
       set({ loading: false });
-      return { ok: true, application: res.data.data };
+      return { ok: true, application: res.data.application };
     } catch (error) {
       set({ loading: false });
       toast.error("Failed to track application.");
@@ -94,7 +95,7 @@ export const useApplicationStore = create((set, get) => ({
 
     try {
       const res = await axios.put(`/applications/${applicationID}`, updates);
-      set({ fetchedApplication: res.data.data, loading: false });
+      set({ fetchedApplication: res.data.application, loading: false });
     } catch (error) {
       set({ loading: false });
       toast.error("Failed to update application.");

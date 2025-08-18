@@ -188,7 +188,13 @@ export const refreshToken = async (req, res) => {
 
 export const getProfile = async (req, res) => {
   try {
-    return res.status(200).json(req.user);
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: "Fetched user profile data.",
+        user: req.user,
+      });
   } catch (error) {
     console.log("Error in getProfile() controller:", error);
     return res.status(500).json({

@@ -11,7 +11,7 @@ export const getUserApplications = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "User applications fetched successfully.",
-      data: applications,
+      applications: applications,
     });
   } catch (error) {
     console.log("Error in getUserApplications() controller:", error);
@@ -38,7 +38,7 @@ export const getApplication = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Application fetched successfully.",
-      data: application,
+      application: application,
     });
   } catch (error) {
     console.log("Error in getApplication() controller:", error);
@@ -91,7 +91,7 @@ export const track = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Application successfully tracked.",
-      data: {
+      application: {
         _id: application._id,
         title: application.title,
         company: application.company,
@@ -151,7 +151,7 @@ export const update = async (req, res) => {
         return res.status(200).json({
           success: true,
           message: "Application updated successfully.",
-          data: updatedApplication,
+          application: updatedApplication,
         });
       }
     } catch (error) {

@@ -18,7 +18,8 @@ export default function Application() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { fetchedApplication, getApplication, update } = useApplicationStore();
+  const { fetchedApplication, getApplication, update, loading } =
+    useApplicationStore();
 
   const [formData, setFormData] = useState({
     title: "",
@@ -48,44 +49,12 @@ export default function Application() {
   useEffect(() => {
     const fetchApplication = async () => {
       try {
-        // Replace with your actual API call
-        // const response = await getApplicationById(id)
-        // setFormData(response.data)
-
-        // Mock data for demonstration - replace with actual API call
         console.log(`Fetching application with ID: ${id}`);
 
         const res = await getApplication(id);
         setFormData(fetchedApplication);
 
         setIsLoading(false);
-
-        // Simulate API delay
-        // setTimeout(() => {
-        //   // Mock application data - replace with actual API response
-        //   setFormData({
-        //     title: "Senior Frontend Developer",
-        //     company: "TechCorp Inc.",
-        //     workType: "hybrid",
-        //     location: {
-        //       city: "San Francisco",
-        //       country: "USA",
-        //     },
-        //     salary: {
-        //       amount: "120000",
-        //       period: "yearly",
-        //     },
-        //     description:
-        //       "We are looking for a Senior Frontend Developer to join our team...",
-        //     notes: "Great company culture, competitive benefits package.",
-        //     requiredSkills: ["React", "TypeScript", "Node.js", "GraphQL"],
-        //     applicationURL: "https://techcorp.com/jobs/senior-frontend-dev",
-        //     category: "Technology",
-        //     position: "Senior",
-        //     status: "interview",
-        //   });
-        //   setIsLoading(false);
-        // }, 1000);
       } catch (error) {
         console.error("Error fetching application:", error);
         alert("Error loading application. Please try again.");
@@ -197,7 +166,7 @@ export default function Application() {
     "C-Level",
   ];
 
-  if (isLoading) {
+  if (isLoading || loading) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
