@@ -52,6 +52,55 @@ export const signup = async (req, res) => {
   }
 };
 
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: `Login failed.", error: "User not found with email ${email}.`,
+      });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Login failed.",
+        error: "Invalid credentials.",
+      });
+    }
+
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, {
+      expiresIn: JWT_EXPIRES_IN,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Login successful.",
+      token: token,
+      user: {
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    console.error(`Error in login() controller: ${error}`);
+    console.log(`Error in login() controller: ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+      error: error.message,
+    });
+  }
+};
+
+/*
 export const register = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
@@ -96,57 +145,9 @@ export const register = async (req, res) => {
     });
   }
 };
+*/
 
-export const login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: `Login failed.", error: "User not found with email ${email}.`,
-      });
-    }
-
-    const isPasswordMatch = await bcrypt.compare(password, user.password);
-    if (!isPasswordMatch) {
-      return res.status(401).json({
-        success: false,
-        message: "Login failed.",
-        error: "Invalid credentials.",
-      });
-    }
-
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, {
-      expiresIn: JWT_EXPIRES_IN,
-    });
-
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: "Login successful.",
-        token: token,
-        user: {
-          _id: user._id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          role: user.role,
-        },
-      });
-  } catch (error) {
-    console.error(`Error in login() controller: ${error}`);
-    console.log(`Error in login() controller: ${error.message}`);
-    return res.status(500).json({
-      success: false,
-      message: "Internal server error.",
-      error: error.message,
-    });
-  }
-};
-
+/*
 export const signin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -171,12 +172,6 @@ export const signin = async (req, res) => {
       });
     }
 
-    /*
-      -> Generate access/refresh tokens
-      -> Set tokens in response.cookies
-      -> Return success status with user data.
-    */
-
     return res
       .status(200)
       .json({ success: true, message: "Login successful.", user: user });
@@ -190,3 +185,4 @@ export const signin = async (req, res) => {
     });
   }
 };
+*/
