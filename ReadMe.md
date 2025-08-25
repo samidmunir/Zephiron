@@ -24,4 +24,6 @@ Sami Munir | Rutgers University | sami.munir2001@gmail.com
 - React
 - Node.js
 
+### maravex - _(MERN stack)_
+
 ## Leetcode Mastery
