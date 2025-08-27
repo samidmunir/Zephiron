@@ -70,6 +70,7 @@ const applicationSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["wishlist", "applied", "rejected", "closed"],
+      default: ["wishlist"],
     },
     applicationURL: {
       type: String,
@@ -83,6 +84,13 @@ const applicationSchema = new mongoose.Schema(
     },
     notes: {
       type: [String],
+    },
+    skills: {
+      type: [String],
+      required: [
+        true,
+        "Job required skills are required to create a new application.",
+      ],
     },
   },
   { timestamps: true }
