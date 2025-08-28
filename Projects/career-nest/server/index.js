@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import { connectDB } from "./lib/mongodb.js";
 
 dotenv.config();
 
@@ -12,5 +13,6 @@ app.use(cors());
 app.use(express.json());
 
 app.listen(PORT, () => {
-  console.log(`career-nest server is live on http://localhost:${3000}`);
+  console.log(`career-nest server is live on http://localhost:${PORT}`);
+  connectDB();
 });
