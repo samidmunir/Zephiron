@@ -25,8 +25,8 @@ const Profile = (props: ProfileProps) => {
         <User
           className={`w-6 h-6 ${
             isDark
-              ? "text-zinc-300 hover:text-orange-400"
-              : "text-zinc-900 hover:text-blue-600"
+              ? "text-zinc-500 hover:text-orange-400"
+              : "text-zinc-800 hover:text-blue-600"
           } transition-all duration-1500
           }`}
         />
