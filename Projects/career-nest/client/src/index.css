@@ -1,6 +1,0 @@
-@import "tailwindcss";
-
-* {
-  transition: all 0.3s linear;
-  scrollbar-width: none;
-}
