@@ -31,42 +31,47 @@ const userSchema = mongoose.Schema(
     billing: {
       address: {
         type: String,
-        required: [true, "User billing>address is required."],
+        // required: [true, "User billing>address is required."],
       },
       city: {
         type: String,
-        required: [true, "User billing>city is required."],
+        // required: [true, "User billing>city is required."],
       },
       state: {
         type: String,
       },
       country: {
         type: String,
-        required: [true, "User billing>country is required."],
+        // required: [true, "User billing>country is required."],
       },
       zip: {
         type: String,
-        required: [true, "User billing>zip is required."],
+        // required: [true, "User billing>zip is required."],
       },
     },
     subscription: {
       stripeUserID: {
         type: String,
       },
+      planID: {
+        type: String,
+      },
       plan: {
         type: String,
         enum: ["FREE", "BASIC", "PRO"],
         default: "FREE",
-        required: [true, "User subscription>plan is required."],
+        // required: [true, "User subscription>plan is required."],
       },
       period: {
         type: String,
         enum: ["monthly", "yearly"],
-        required: [true, "User subscription>period is required."],
+        // required: [true, "User subscription>period is required."],
+        default: "monthly",
       },
       autoRenew: {
         type: Boolean,
-        required: [true, "User subscription>autoRenew is required."],
+        // required: [true, "User subscription>autoRenew is required."],
+        default: true,
       },
       startDate: {
         type: Date,
