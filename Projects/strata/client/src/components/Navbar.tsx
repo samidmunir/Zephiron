@@ -79,9 +79,10 @@ const Navbar = () => {
         {user ? (
           <div className={`flex items-center`}>
             <p
+              onClick={() => navigate("/dashboard")}
               className={`font-semibold text-lg ${
                 isDark ? "text-orange-400" : "text-blue-600"
-              }`}
+              } cursor-default`}
             >
               {user.firstName} {user.lastName[0]}
             </p>

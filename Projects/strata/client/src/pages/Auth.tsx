@@ -27,7 +27,7 @@ const Auth = () => {
   //   const [emailError, setEmailError] = useState("");
   //   const [passwordError, setPasswordError] = useState("");
   //   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [loading, setLoading] = useState(false);
+  //   const [loading, setLoading] = useState(false);
 
   const toggleAuthMode = () => {
     if (mode === "login") {

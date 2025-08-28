@@ -70,7 +70,7 @@ const applicationSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["wishlist", "applied", "rejected", "closed"],
-      default: ["wishlist"],
+      default: "wishlist",
     },
     applicationURL: {
       type: String,
