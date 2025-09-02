@@ -4,6 +4,8 @@ import Landing from "./pages/Landing";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import UserProtected from "./layouts/UserProtected";
+import Track from "./pages/Track";
+import Update from "./pages/Update";
 
 const App = () => {
   return (
@@ -16,6 +18,22 @@ const App = () => {
           element={
             <UserProtected>
               <Dashboard />
+            </UserProtected>
+          }
+        />
+        <Route
+          path="/application-store/track"
+          element={
+            <UserProtected>
+              <Track />
+            </UserProtected>
+          }
+        />
+        <Route
+          path="/application-store/edit/:id"
+          element={
+            <UserProtected>
+              <Update />
             </UserProtected>
           }
         />

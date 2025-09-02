@@ -365,6 +365,7 @@ const Auth = () => {
               </section>
             </form>
           )}
+          {/* ERROR */}
           {error !== "" && (
             <p
               className={`mt-4 font-semibold ${

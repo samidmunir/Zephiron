@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/Theme";
 import ThemeToggle from "./ui/ThemeToggle";
 import { useAuth } from "../contexts/Auth";
@@ -11,6 +11,8 @@ const Navbar = () => {
   const isDark = theme === "dark";
 
   const { user, logout } = useAuth();
+
+  const navigate = useNavigate();
 
   return (
     <nav
@@ -46,6 +48,7 @@ const Navbar = () => {
           {user ? (
             <div className="flex items-center gap-4">
               <p
+                onClick={() => navigate("/dashboard")}
                 className={`font-semibold ${
                   isDark ? "text-sky-500" : "text-blue-600"
                 } transition-all duration-1500`}

@@ -2,6 +2,30 @@ import { useTheme } from "../contexts/Theme";
 import { useAuth } from "../contexts/Auth";
 import { useNavigate } from "react-router-dom";
 import { BookmarkPlus, LogOut, UserPen } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import ApplicationCard from "../components/ApplicationCard";
+
+type Application = {
+  _id: string;
+  title: string;
+  company: string;
+  position: string;
+  category: string;
+  workType: string;
+  status: string;
+  location: {
+    city: string;
+    state: string;
+    country: string;
+  };
+  salary: {
+    amount: number;
+    period: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+};
 
 const overview = [
   { id: 0, label: "Applications", value: 38 },
@@ -18,6 +42,36 @@ const Dashboard = () => {
 
   const navigate = useNavigate();
 
+  const [applications, setApplications] = useState<Application[]>([]);
+
+  const fetchUserApplications = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/users/${user?._id}/applications`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.sucess === false) {
+        toast.error("Failed to fetch.");
+        throw new Error(data.error);
+      } else {
+        setApplications(data.applications);
+        toast.success("User applications fetched!");
+      }
+    } catch (error) {
+      console.log(`Failed to fetch user applications: ${error}`);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserApplications();
+  }, []);
+
   return (
     <main
       className={`px-8 py-4 min-h-screen ${
@@ -25,7 +79,11 @@ const Dashboard = () => {
       } transition-all duration-3000`}
     >
       {/* WELCOME */}
-      <header className="shadow-2xl rounded-md mb-4 p-4 space-y-4">
+      <header
+        className={`shadow-2xl rounded-md mb-4 p-8 space-y-4 ${
+          isDark ? "bg-zinc-950" : "bg-zinc-50"
+        } transition-all duration-1500`}
+      >
         <div className="space-y-2">
           <h1
             className={`text-3xl ${
@@ -45,7 +103,7 @@ const Dashboard = () => {
         <div className="flex items-center gap-4">
           {/* EDIT PROFILE BTN */}
           <button
-            onClick={() => navigate("/application-store/track")}
+            onClick={() => navigate("/profile/edit")}
             className={`flex items-center text-lg font-semibold gap-1 border-2 rounded-md px-2 py-1 outline-none ${
               isDark
                 ? "text-sky-500 hover:bg-sky-500 hover:text-zinc-900"
@@ -109,7 +167,44 @@ const Dashboard = () => {
       {/* RECENT ACTIVITY */}
       <section></section>
       {/* APPLICATIONS GRID */}
-      <section></section>
+      <section
+        className={`px-4 py-4 mt-4 rounded-md ${
+          isDark ? "bg-zinc-950" : ""
+        } transition-all duration-1500`}
+      >
+        <h1
+          className={`text-3xl font-medium my-4 ${
+            isDark ? "text-zinc-700" : ""
+          } transition-all duration-1500`}
+        >
+          Your Recently Tracked Applications
+        </h1>
+        {applications.length === 0 ? (
+          <h2>
+            We couldn't find any live applications pertaining to your account.
+            Click TRACK above to get started!
+          </h2>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-4">
+            {applications.map((app, i) => (
+              <ApplicationCard
+                key={i}
+                id={app._id}
+                title={app.title}
+                company={app.company}
+                position={app.position}
+                category={app.category}
+                workType={app.workType}
+                status={app.status}
+                location={app.location}
+                salary={app.salary}
+                createdAt={app.createdAt}
+                updatedAt={app.updatedAt}
+              />
+            ))}
+          </div>
+        )}
+      </section>
     </main>
   );
 };
