@@ -19,26 +19,10 @@
     - Documentation comments
 */
 
-mod inventory {
-    const FLOOR_SPACE: i32 = 5000;
-    pub const MANAGER: &str = "Sami M.";
-    
-    #[derive(Debug)]
-    enum ProductCategory {
-        Ladder,
-        Hammer
-    }
+mod inventory;
 
-    #[derive(Debug)]
-    struct Item {
-        name: String,
-        category: ProductCategory,
-        quantity: u32,
-    }
-
-    pub fn talk_to_manager() {
-        println!("talking to {}...", MANAGER);
-    }
+mod orders {
+    pub const MANAGER: &str = "Rust Dev";
 }
 
 fn main() {
@@ -61,9 +45,22 @@ fn main() {
 
     /*
         A module is an organizational container that encapsulates related code (constructs of code/items).
+        - allows for namespaces
     */
     println!("\ninventory.MANAGER: {}", inventory::MANAGER);
+
     println!("\ntalk_to_manager():");
     inventory::talk_to_manager();
-    
+
+    println!("\norders.MANAGER: {}", orders::MANAGER);
+
+    /*
+        A crate root is the base/foundation of a crate (the starting point for the compiler).
+    */
+
+    /*
+        A module can be detected by Rust within 3 ways:
+        - inline module declaration
+        - mod "file.rs" means importing module file
+    */
 }
