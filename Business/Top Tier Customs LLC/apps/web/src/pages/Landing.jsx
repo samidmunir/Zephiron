@@ -1,10 +1,11 @@
-import Hero from "../components/Hero";
+import Hero from "../components/landing/Hero";
+import TrustStrip from "../components/landing/TrustStrip";
 
 const Landing = () => {
   return (
     <main>
       <Hero />
-      <h1>HELLOOO</h1>
+      <TrustStrip />
     </main>
   );
 };
