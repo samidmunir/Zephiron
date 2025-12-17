@@ -51,8 +51,11 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`w-full px-4 py-4 sticky top-0 z-10 backdrop-blur-xs transition-all duration-3000 ${
-        isDark ? "bg-zinc-950/90 text-zinc-50" : "bg-zinc-50/90 text-zinc-950"
+      // className={`w-full px-8 py-4 sticky top-0 z-50 backdrop-blur-xs shadow-2xl transition-all duration-3000 ${
+      //   isDark ? "bg-zinc-950/90 text-zinc-50" : "bg-zinc-50/50 text-zinc-950"
+      // }`}
+      className={`w-full px-8 py-4 fixed top-0 left-0 right-0 z-1000 backdrop-blur-xs shadow-2xl transition-all duration-3000 ${
+        isDark ? "bg-zinc-950/90 text-zinc-50" : "bg-zinc-50/50 text-zinc-950"
       }`}
     >
       <main className="flex items-center justify-between">
@@ -64,12 +67,12 @@ const Navbar = () => {
           <img
             src={logo}
             alt="Logo"
-            className={`w-[50px] rounded-full border-3 transition-all duration-1000 ${
+            className={`w-[50px] lg:w-[60px] rounded-full border-3 transition-all duration-1000 ${
               isDark ? "border-rose-500" : "border-sky-500"
             }`}
           />
           <h1
-            className={`text-xl font-bold uppercase bg-clip-text text-transparent bg-linear-to-r transition-all duration-1000 ${
+            className={`text-xl lg:text-2xl font-bold uppercase bg-clip-text text-transparent bg-linear-to-r transition-all duration-1000 ${
               isDark ? "from-rose-500 to-zinc-50" : "from-sky-500 to-zinc-950"
             }`}
           >
@@ -101,9 +104,18 @@ const Navbar = () => {
             ))}
         </div>
         {/* Right CTA */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 md:gap-4 lg:gap-6">
           <Cart />
           <Theme />
+          {isAuthenticated && (
+            <p
+              className={`text-md font-medium hidden md:inline-flex transition-all duration-1000 cursor-none ${
+                isDark ? "text-zinc-500" : "text-zinc-800"
+              }`}
+            >
+              samidmunir@outlook.com
+            </p>
+          )}
           {isAuthenticated ? <Logout /> : <Login />}
           <button
             onClick={() => setMobileOpen((prev) => !prev)}

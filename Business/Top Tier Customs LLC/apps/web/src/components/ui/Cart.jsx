@@ -7,7 +7,7 @@ const Cart = () => {
   const isDark = theme === "dark";
 
   const { cart, toggleCart } = useCart();
-  const itemsInCart = 2;
+  const itemsInCart = 0;
 
   return (
     <button

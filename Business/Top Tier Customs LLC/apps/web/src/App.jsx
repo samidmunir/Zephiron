@@ -1,11 +1,12 @@
 import Main from "./layouts/Main";
 import { Routes, Route } from "react-router-dom";
+import Landing from "./pages/Landing";
 
 const App = () => {
   return (
     <Main>
       <Routes>
-        <Route path="/" index element={<h1></h1>} />
+        <Route path="/" index element={<Landing />} />
       </Routes>
     </Main>
   );
