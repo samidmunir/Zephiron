@@ -12,7 +12,7 @@ const Main = ({ children }) => {
       <ToastContainer position="top-right" autoClose={3000} theme={theme} />
       <section
         className={`min-h-screen transition-all duration-3000 ${
-          isDark ? "bg-zinc-900" : "bg-zinc-100"
+          isDark ? "bg-zinc-950/90" : "bg-zinc-50/90"
         }`}
       >
         {children}

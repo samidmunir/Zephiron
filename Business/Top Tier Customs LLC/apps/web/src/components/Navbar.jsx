@@ -4,6 +4,7 @@ import { useTheme } from "../contexts/Theme";
 import Cart from "./ui/Cart";
 import Theme from "./ui/Theme";
 import Login from "./ui/Login";
+import Logout from "../components/ui/Logout";
 import { useState } from "react";
 import { Activity, Gauge, Menu, Package, Wrench, X } from "lucide-react";
 
@@ -50,7 +51,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`w-full px-4 py-4 sticky top-0 z-50 backdrop-blur-xs transition-all duration-1000 ${
+      className={`w-full px-4 py-4 sticky top-0 z-10 backdrop-blur-xs transition-all duration-3000 ${
         isDark ? "bg-zinc-950/90 text-zinc-50" : "bg-zinc-50/90 text-zinc-950"
       }`}
     >
@@ -79,6 +80,7 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center gap-8">
           {navBaseItems.map((navItem) => (
             <div
+              key={navItem.id}
               onClick={() => navigate(navItem.href)}
               className={`text-lg font-semibold uppercase flex items-center gap-1 cursor-pointer transition-all duration-1000`}
             >
@@ -89,6 +91,7 @@ const Navbar = () => {
           {isAuthenticated &&
             navAuthItems.map((navItem) => (
               <div
+                key={navItem.id}
                 onClick={() => navigate(navItem.href)}
                 className={`text-lg font-semibold uppercase flex items-center gap-1 cursor-pointer transition-all duration-1000`}
               >
@@ -101,7 +104,7 @@ const Navbar = () => {
         <div className="flex items-center gap-2">
           <Cart />
           <Theme />
-          <Login />
+          {isAuthenticated ? <Logout /> : <Login />}
           <button
             onClick={() => setMobileOpen((prev) => !prev)}
             className={`p-1 lg:hidden cursor-pointer`}
@@ -111,6 +114,29 @@ const Navbar = () => {
         </div>
       </main>
       {/* Mobile Menu */}
+      {mobileOpen && (
+        <div className="flex flex-col gap-4 mt-4 lg:hidden">
+          {[...navBaseItems, ...(isAuthenticated ? navAuthItems : [])].map(
+            (navItem) => (
+              <div
+                key={navItem.id}
+                className={`flex items-center gap-1 font-semibold cursor-pointer transition-all duration-1000`}
+              >
+                <p>{navItem.icon}</p>
+                <p>{navItem.label}</p>
+              </div>
+            )
+          )}
+          {isAuthenticated && (
+            <div className="flex items-center justify-between">
+              <p className={`font-bold transition-all duration-1000`}>
+                Sami M.
+              </p>
+              <p>samidmunir@outlook.com</p>
+            </div>
+          )}
+        </div>
+      )}
     </nav>
   );
 };
