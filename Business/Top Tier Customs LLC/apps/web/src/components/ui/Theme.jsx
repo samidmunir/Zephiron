@@ -8,7 +8,7 @@ const Theme = () => {
   return (
     <button
       onClick={toggleTheme}
-      className={`p-1 flex items-center justify-center transition-all duration-1000`}
+      className={`p-1 flex items-center justify-center cursor-pointer transition-all duration-1000`}
     >
       {isDark ? (
         <Sun className="text-amber-500" />

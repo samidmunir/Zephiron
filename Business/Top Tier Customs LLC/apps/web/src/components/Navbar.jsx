@@ -5,17 +5,43 @@ import Cart from "./ui/Cart";
 import Theme from "./ui/Theme";
 import Login from "./ui/Login";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Activity, Gauge, Menu, Package, Wrench, X } from "lucide-react";
 
-const navBaseItems = [];
+const navBaseItems = [
+  {
+    id: 0,
+    label: "Catalog",
+    href: "/catalog",
+    icon: <Package />,
+  },
+  {
+    id: 1,
+    label: "Services",
+    href: "/services",
+    icon: <Wrench />,
+  },
+  {
+    id: 2,
+    label: "Activity",
+    href: "/activity",
+    icon: <Activity />,
+  },
+];
 
-const navAuthItems = [];
+const navAuthItems = [
+  {
+    id: 3,
+    label: "Dashboard",
+    href: "/dashboard",
+    icon: <Gauge />,
+  },
+];
 
 const Navbar = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  const isAuthenticated = false;
+  const isAuthenticated = true;
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -32,7 +58,7 @@ const Navbar = () => {
         {/* Logo */}
         <div
           onClick={() => navigate("/")}
-          className="flex items-center gap-2 transition-all duration-1000"
+          className="flex items-center gap-2 cursor-pointer transition-all duration-1000"
         >
           <img
             src={logo}
@@ -50,7 +76,27 @@ const Navbar = () => {
           </h1>
         </div>
         {/* Desktop Nav */}
-        <div></div>
+        <div className="hidden lg:flex items-center gap-8">
+          {navBaseItems.map((navItem) => (
+            <div
+              onClick={() => navigate(navItem.href)}
+              className={`text-lg font-semibold uppercase flex items-center gap-1 cursor-pointer transition-all duration-1000`}
+            >
+              <p>{navItem.icon}</p>
+              <p>{navItem.label}</p>
+            </div>
+          ))}
+          {isAuthenticated &&
+            navAuthItems.map((navItem) => (
+              <div
+                onClick={() => navigate(navItem.href)}
+                className={`text-lg font-semibold uppercase flex items-center gap-1 cursor-pointer transition-all duration-1000`}
+              >
+                <p>{navItem.icon}</p>
+                <p>{navItem.label}</p>
+              </div>
+            ))}
+        </div>
         {/* Right CTA */}
         <div className="flex items-center gap-2">
           <Cart />
@@ -58,7 +104,7 @@ const Navbar = () => {
           <Login />
           <button
             onClick={() => setMobileOpen((prev) => !prev)}
-            className={`p-1 lg:hidden`}
+            className={`p-1 lg:hidden cursor-pointer`}
           >
             {mobileOpen ? <X /> : <Menu />}
           </button>
