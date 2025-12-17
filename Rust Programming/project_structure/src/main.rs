@@ -20,10 +20,7 @@
 */
 
 mod inventory;
-
-mod orders {
-    pub const MANAGER: &str = "Rust Dev";
-}
+mod orders;
 
 fn main() {
     println!("\nProject Structure in Rust (using Warehouse example)");
@@ -62,5 +59,7 @@ fn main() {
         A module can be detected by Rust within 3 ways:
         - inline module declaration
         - mod "file.rs" means importing module file
+        - folder convention: name of folder must be same as module name
+            > include a mod.rs file to indicate folder convention
     */
 }
