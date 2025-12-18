@@ -104,44 +104,6 @@ const TrustStrip = () => {
       </section>
     </main>
   );
-
-  // return (
-  //   <main
-  //     className={`transition-all duration-3000 ${
-  //       isDark ? "bg-zinc-950/90" : "bg-zinc-50/90"
-  //     }`}
-  //   >
-  //     <section className="max-w-6xl mx-auto px-6 py-10">
-  //       <div>
-  //         <h2 className={`text-3xl md:text-4xl transition-all duration-1000`}>
-  //           Why Choose Us?
-  //         </h2>
-  //       </div>
-  //       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-  //         {trustItems.map((item) => (
-  //           <div
-  //             key={item.id}
-  //             className={`rounded-2xl p-5 border ${
-  //               isDark
-  //                 ? "bg-white/5 border-white/10"
-  //                 : "bg-black/5 border-black/10"
-  //             }`}
-  //           >
-  //             <div className="flex items-center gap-3">
-  //               <div className="h-10 w-10 grid place-items-center rounded-xl bg-white/10 border border-white/10">
-  //                 {item.icon}
-  //               </div>
-  //               <div>
-  //                 <p className="font-semibold">{item.title}</p>
-  //                 <p className="text-sm opacity-80">{item.desc}</p>
-  //               </div>
-  //             </div>
-  //           </div>
-  //         ))}
-  //       </div>
-  //     </section>
-  //   </main>
-  // );
 };
 
 export default TrustStrip;

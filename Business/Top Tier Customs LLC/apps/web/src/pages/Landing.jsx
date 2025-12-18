@@ -1,8 +1,8 @@
 import Hero from "../components/landing/Hero";
 import TrustStrip from "../components/landing/TrustStrip";
-import HowItWorks from "../components/landing/HowItWorks";
-import FeaturedCategories from "../components/landing/FeaturedCategories";
-import Testimonials from "../components/landing/Testimonials";
+// import HowItWorks from "../components/landing/HowItWorks";
+// import FeaturedCategories from "../components/landing/FeaturedCategories";
+// import Testimonials from "../components/landing/Testimonials";
 
 const Landing = () => {
   return (

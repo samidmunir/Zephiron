@@ -51,9 +51,6 @@ const Navbar = () => {
 
   return (
     <nav
-      // className={`w-full px-8 py-4 sticky top-0 z-50 backdrop-blur-xs shadow-2xl transition-all duration-3000 ${
-      //   isDark ? "bg-zinc-950/90 text-zinc-50" : "bg-zinc-50/50 text-zinc-950"
-      // }`}
       className={`w-full px-8 py-4 fixed top-0 left-0 right-0 z-999 backdrop-blur-xs shadow-2xl transition-all duration-3000 ${
         isDark ? "bg-zinc-950/90 text-zinc-50" : "bg-zinc-50/50 text-zinc-950"
       }`}
@@ -67,7 +64,7 @@ const Navbar = () => {
           <img
             src={logo}
             alt="Logo"
-            className={`w-[50px] lg:w-[60px] rounded-full border-3 transition-all duration-1000 ${
+            className={`w-12.5 lg:w-15 rounded-full border-3 transition-all duration-1000 ${
               isDark ? "border-rose-500" : "border-sky-500"
             }`}
           />
