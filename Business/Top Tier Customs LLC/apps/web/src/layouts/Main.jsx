@@ -1,6 +1,7 @@
 import Navbar from "../components/Navbar";
 import { ToastContainer } from "react-toastify";
 import { useTheme } from "../contexts/Theme";
+import ScrollBar from "../components/ui/ScrollBar";
 
 const Main = ({ children }) => {
   const { theme } = useTheme();
@@ -8,6 +9,7 @@ const Main = ({ children }) => {
 
   return (
     <main>
+      <ScrollBar />
       <Navbar />
       <ToastContainer position="top-right" autoClose={3000} theme={theme} />
       <section

@@ -54,7 +54,7 @@ const Navbar = () => {
       // className={`w-full px-8 py-4 sticky top-0 z-50 backdrop-blur-xs shadow-2xl transition-all duration-3000 ${
       //   isDark ? "bg-zinc-950/90 text-zinc-50" : "bg-zinc-50/50 text-zinc-950"
       // }`}
-      className={`w-full px-8 py-4 fixed top-0 left-0 right-0 z-1000 backdrop-blur-xs shadow-2xl transition-all duration-3000 ${
+      className={`w-full px-8 py-4 fixed top-0 left-0 right-0 z-999 backdrop-blur-xs shadow-2xl transition-all duration-3000 ${
         isDark ? "bg-zinc-950/90 text-zinc-50" : "bg-zinc-50/50 text-zinc-950"
       }`}
     >
