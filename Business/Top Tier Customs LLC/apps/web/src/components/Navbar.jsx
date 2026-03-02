@@ -7,6 +7,7 @@ import Login from "./ui/Login";
 import Logout from "../components/ui/Logout";
 import { useState } from "react";
 import { Activity, Gauge, Menu, Package, Wrench, X } from "lucide-react";
+import { useAuth } from "../contexts/Auth";
 
 const navBaseItems = [
   {
@@ -42,7 +43,7 @@ const Navbar = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  const isAuthenticated = true;
+  const { user, isAuthenticated } = useAuth();
 
   const location = useLocation();
   const navigate = useNavigate();

@@ -11,7 +11,7 @@ const Main = ({ children }) => {
     <main>
       <ScrollBar />
       <Navbar />
-      <ToastContainer position="top-right" autoClose={3000} theme={theme} />
+      <ToastContainer position="bottom-right" autoClose={3000} theme={theme} />
       <section
         className={`min-h-screen transition-all duration-3000 ${
           isDark ? "bg-zinc-950/90" : "bg-zinc-50/90"
